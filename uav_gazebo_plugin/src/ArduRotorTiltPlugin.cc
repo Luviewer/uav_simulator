@@ -780,15 +780,10 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
 
         // compute command based on requested motorSpeed
         std::cout << "motorSpeed:\t";
-<<<<<<< HEAD
-        for (unsigned i = 0; i < this->dataPtr->motor_num; ++i) {
-            if (i < MAX_MOTORS) {
-=======
         for (unsigned i = 0; i < this->dataPtr->motor_num; ++i)
         {
             if (i < MAX_MOTORS)
             {
->>>>>>> 3ed2765fc4cac6e74925019fc08b7b62d5233e12
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i], -1.0f, 1.0f);
                 this->dataPtr->motor_speed[i] = cmd * 1000.0f;
 
@@ -803,15 +798,10 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
         std::cout << "\n";
 
         std::cout << "servo_speed:\t";
-<<<<<<< HEAD
-        for (unsigned i = 0; i < this->dataPtr->servo_num; ++i) {
-            if (i < MAX_MOTORS) {
-=======
         for (unsigned i = 0; i < this->dataPtr->servo_num; ++i)
         {
             if (i < MAX_MOTORS)
             {
->>>>>>> 3ed2765fc4cac6e74925019fc08b7b62d5233e12
                 double cmd = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->motor_num], -1.0f, 1.0f);
 
                 if (cmd == -1)
@@ -820,13 +810,9 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
                 this->dataPtr->servo_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
 
                 std::cout << cmd << "\t";
-<<<<<<< HEAD
-            } else {
-=======
             }
             else
             {
->>>>>>> 3ed2765fc4cac6e74925019fc08b7b62d5233e12
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
