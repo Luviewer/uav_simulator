@@ -46,6 +46,37 @@
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_tiltrotor_3::tiltrotor_tube</child>
       </joint>
+
+      <include>
+        <uri>model://arduwoodpecker_batt</uri>
+        <name>arduwoodpecker_batt</name>
+        <pose>0 0 -0.052 0 0 0</pose>
+      </include>
+      <joint name="arduwoodpecker_batt_joint" type="fixed">
+        <parent>arduwoodpecker_platform::platform_base</parent>
+        <child>arduwoodpecker_batt::platform_batt</child>
+      </joint>
+
+      <include>
+        <uri>model://arduwoodpecker_claw</uri>
+        <name>arduwoodpecker_claw_0</name>
+        <pose>0.1595 0 -0.123 0 0 0</pose>
+      </include>
+      <joint name="arduwoodpecker_claw_0_joint" type="fixed">
+        <parent>arduwoodpecker_platform::platform_base</parent>
+        <child>arduwoodpecker_claw_0::arduwoodpecker_claw_base::claw_base</child>
+      </joint>
+
+      <include>
+        <uri>model://arduwoodpecker_claw</uri>
+        <name>arduwoodpecker_claw_1</name>
+        <pose>-0.1595 0 -0.123 0 0 3.141592653589793</pose>
+      </include>
+      <joint name="arduwoodpecker_claw_1_joint" type="fixed">
+        <parent>arduwoodpecker_platform::platform_base</parent>
+        <child>arduwoodpecker_claw_1::arduwoodpecker_claw_base::claw_base</child>
+      </joint>
+
       
       <plugin name="tiltrotor_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
@@ -317,6 +348,10 @@
     <imuName>arduwoodpecker_platform::imu_link::imu_sensor</imuName>
     <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
   </plugin>
+
+  
+
+
   
   <!--
   <include>

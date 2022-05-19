@@ -82,11 +82,11 @@
           <uri>model://arduwoodpecker_tiltrotor/meshes/tiltrotor_tilt.STL</uri>
         </mesh>
       </geometry>
-      <material>
-        <script>
-          <name>Gazebo/Gray</name>
-        </script>
-      </material>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
     </visual>
   </link>
   <joint name='tiltrotor_tilt_joint' type='revolute'>
