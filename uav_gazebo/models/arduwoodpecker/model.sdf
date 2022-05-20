@@ -3,13 +3,11 @@
   <sdf version="1.5">
     <model name="arduwoodpecker">
       
-
       <include>
         <uri>model://arduwoodpecker_platform</uri>
         <name>arduwoodpecker_platform</name>
         <pose>0 0 0.0 0 0 0</pose>
       </include>
-
       <include>
         <uri>model://arduwoodpecker_tiltrotor</uri>
         <name>arduwoodpecker_tiltrotor_0</name>
@@ -46,7 +44,6 @@
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_tiltrotor_3::tiltrotor_tube</child>
       </joint>
-
       <include>
         <uri>model://arduwoodpecker_batt</uri>
         <name>arduwoodpecker_batt</name>
@@ -56,7 +53,6 @@
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_batt::platform_batt</child>
       </joint>
-
       <include>
         <uri>model://arduwoodpecker_claw</uri>
         <name>arduwoodpecker_claw_0</name>
@@ -66,7 +62,6 @@
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_claw_0::arduwoodpecker_claw_base::claw_base</child>
       </joint>
-
       <include>
         <uri>model://arduwoodpecker_claw</uri>
         <name>arduwoodpecker_claw_1</name>
@@ -76,7 +71,6 @@
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_claw_1::arduwoodpecker_claw_base::claw_base</child>
       </joint>
-
       
       <plugin name="tiltrotor_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
@@ -158,7 +152,6 @@
         </joint_control_pid>
       </plugin>
     
-
     
     <include>
       <uri>model://arduwoodpecker_prop_ccw</uri>
@@ -334,7 +327,6 @@
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
   
-
   <plugin name="ArduRotorTiltPlugin" filename="libArduRotorTiltPlugin.so">
     <fdm_addr>127.0.0.1</fdm_addr>
     <fdm_port_in>9002</fdm_port_in>
@@ -348,47 +340,5 @@
     <imuName>arduwoodpecker_platform::imu_link::imu_sensor</imuName>
     <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
   </plugin>
-
-  
-
-
-  
-  <!--
-  <include>
-    <uri>model://iwp_claw</uri>
-    <name>iwp_claw_0</name>
-    <pose>-0.17 -0.0 -0.0995 0 0 0</pose>
-  </include>
-  <include>
-    <uri>model://iwp_claw</uri>
-    <name>iwp_claw_1</name>
-    <pose>0.17 0 -0.0995 0 0 0 0</pose>
-  </include>
-  <joint name="iwp_claw_0_joint" type="fixed">
-    <parent>arduwoodpecker_platform::platform_base</parent>
-    <child>iwp_claw_0::claw_base</child>
-  </joint>
-  <joint name="iwp_claw_1_joint" type="fixed">
-    <parent>arduwoodpecker_platform::platform_base</parent>
-    <child>iwp_claw_1::claw_base</child>
-  </joint>
-  
-  <plugin name="position_control_0" filename="librotors_gazebo_position_control.so">
-    <robotNamespace></robotNamespace>
-    <jointName>iwp_claw_0::claw_flange_joint</jointName>
-    <linkName>iwp_claw_0::claw_flange</linkName>
-    <motorNumber>0</motorNumber>
-    <commandSubTopic>/gazebo/command/flage_pos</commandSubTopic>
-    <joint_control_pid>
-      <p>10</p>
-      <i>0.01</i>
-      <d>5</d>
-      <iMax>20</iMax>
-      <iMin>-20</iMin>
-      <cmdMax>100000</cmdMax>
-      <cmdMin>-100000</cmdMin>
-    </joint_control_pid>
-  </plugin>
--->
 </model>
 </sdf>

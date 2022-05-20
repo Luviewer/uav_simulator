@@ -37,6 +37,15 @@
       </include>
     </model>
 
+    <model name="arduwoodpecker_tree">
+      <include>
+        <uri>model://arduwoodpecker_tree</uri>
+        <pose>5 0 0.0 0 0 0</pose>
+        <name>arduwoodpecker_tree</name>
+      </include>
+    </model>
+
+
     <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so" />
 
   </world>
