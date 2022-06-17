@@ -64,6 +64,9 @@ target_link_libraries(position_controller ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES
 add_library(ArduRotorTiltPIDPlugin SHARED src/ArduRotorTiltPIDPlugin.cc)
 target_link_libraries(ArduRotorTiltPIDPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+add_library(ArduRotorQuadOctPlugin SHARED src/ArduRotorQuadOctPlugin.cc)
+target_link_libraries(ArduRotorQuadOctPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 
 

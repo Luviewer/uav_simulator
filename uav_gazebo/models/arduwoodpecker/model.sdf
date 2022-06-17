@@ -53,6 +53,7 @@
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_batt::platform_batt</child>
       </joint>
+      
       <include>
         <uri>model://arduwoodpecker_claw</uri>
         <name>arduwoodpecker_claw_0</name>
@@ -71,6 +72,46 @@
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_claw_1::arduwoodpecker_claw_base::claw_base</child>
       </joint>
+      <!-- 
+      <plugin name=arduwoodpecker_claw_flange_0_plugin filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName> arduwoodpecker_claw_0::arduwoodpecker_claw_flange_joint  </jointName>
+        <linkName> arduwoodpecker_claw_0::arduwoodpecker_claw_flange::claw_flange </linkName>
+        <turningDirection>cw</turningDirection>
+        <motorType>position</motorType>
+        <commandSubTopic>/gazebo/command/claw_pos</commandSubTopic>
+        <motorNumber>0</motorNumber>
+        <motorSpeedPubTopic>claw_pos/0</motorSpeedPubTopic>
+        <joint_control_pid>
+          <p>1.5</p>
+          <i>0.001</i>
+          <d>0.2</d>
+          <iMax>2</iMax>
+          <iMin>-2</iMin>
+          <cmdMax>10000</cmdMax>
+          <cmdMin>-10000</cmdMin>
+        </joint_control_pid>
+      </plugin>
+      <plugin name=arduwoodpecker_claw_flange_1_plugin filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName> arduwoodpecker_claw_1::arduwoodpecker_claw_flange_joint  </jointName>
+        <linkName> arduwoodpecker_claw_1::arduwoodpecker_claw_flange::claw_flange </linkName>
+        <turningDirection>cw</turningDirection>
+        <motorType>position</motorType>
+        <commandSubTopic>/gazebo/command/claw_pos</commandSubTopic>
+        <motorNumber>1</motorNumber>
+        <motorSpeedPubTopic>claw_pos/1</motorSpeedPubTopic>
+        <joint_control_pid>
+          <p>1.5</p>
+          <i>0.001</i>
+          <d>0.2</d>
+          <iMax>2</iMax>
+          <iMin>-2</iMin>
+          <cmdMax>10000</cmdMax>
+          <cmdMin>-10000</cmdMin>
+        </joint_control_pid>
+      </plugin> -->
+      
       
       <plugin name="tiltrotor_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>

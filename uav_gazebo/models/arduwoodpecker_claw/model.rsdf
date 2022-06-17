@@ -40,8 +40,8 @@
         <axis>
           <xyz>1 0 0</xyz>
           <limit>
-            <lower><%= -Math::PI/2 %></lower>
-            <upper><%= Math::PI/2  %></upper>
+            <lower><%= -(63.3-15.22) * Math::PI/180 %></lower>
+            <upper><%= 0  %></upper>
           </limit>
         </axis>
         <dynamics>
@@ -67,8 +67,8 @@
         <axis>
           <xyz>1 0 0</xyz>
           <limit>
-            <lower><%= -Math::PI/2 %></lower>
-            <upper><%= Math::PI/2  %></upper>
+            <lower><%= 0 %></lower>
+            <upper><%= (63.3-15.22)*Math::PI/180  %></upper>
           </limit>
         </axis>
         <dynamics>

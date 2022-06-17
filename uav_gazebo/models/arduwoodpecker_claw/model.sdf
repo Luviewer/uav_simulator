@@ -38,8 +38,8 @@
         <axis>
           <xyz>1 0 0</xyz>
           <limit>
-            <lower>-1.5707963267948966</lower>
-            <upper>1.5707963267948966</upper>
+            <lower>-0.8391543043588735</lower>
+            <upper>0</upper>
           </limit>
         </axis>
         <dynamics>
@@ -65,8 +65,8 @@
         <axis>
           <xyz>1 0 0</xyz>
           <limit>
-            <lower>-1.5707963267948966</lower>
-            <upper>1.5707963267948966</upper>
+            <lower>0</lower>
+            <upper>0.8391543043588735</upper>
           </limit>
         </axis>
         <dynamics>

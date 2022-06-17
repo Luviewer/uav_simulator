@@ -13,6 +13,10 @@ tilt_pid_p = 1.5
 tilt_pid_i = 0.001
 tilt_pid_d = 0.2
 
+flange_pid_p = 1.5
+flange_pid_i = 0.001
+flange_pid_d = 0.2
+
 tilt_motors={
 	"0" => {:jointName => "arduwoodpecker_platform::tilt_0_joint", :linkName => "arduwoodpecker_platform::tilt_0"},
 	"1" => {:jointName => "arduwoodpecker_platform::tilt_1_joint", :linkName => "arduwoodpecker_platform::tilt_1"},
@@ -87,6 +91,7 @@ prop_motors={
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_batt::platform_batt</child>
       </joint>
+      <%# ====================================================================================== %>
       <include>
         <uri>model://arduwoodpecker_claw</uri>
         <name>arduwoodpecker_claw_0</name>
@@ -105,6 +110,46 @@ prop_motors={
         <parent>arduwoodpecker_platform::platform_base</parent>
         <child>arduwoodpecker_claw_1::arduwoodpecker_claw_base::claw_base</child>
       </joint>
+      <!-- 
+      <plugin name=arduwoodpecker_claw_flange_0_plugin filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName> arduwoodpecker_claw_0::arduwoodpecker_claw_flange_joint  </jointName>
+        <linkName> arduwoodpecker_claw_0::arduwoodpecker_claw_flange::claw_flange </linkName>
+        <turningDirection>cw</turningDirection>
+        <motorType>position</motorType>
+        <commandSubTopic>/gazebo/command/claw_pos</commandSubTopic>
+        <motorNumber>0</motorNumber>
+        <motorSpeedPubTopic>claw_pos/0</motorSpeedPubTopic>
+        <joint_control_pid>
+          <p><%= flange_pid_p %></p>
+          <i><%= flange_pid_i %></i>
+          <d><%= flange_pid_d %></d>
+          <iMax>2</iMax>
+          <iMin>-2</iMin>
+          <cmdMax>10000</cmdMax>
+          <cmdMin>-10000</cmdMin>
+        </joint_control_pid>
+      </plugin>
+      <plugin name=arduwoodpecker_claw_flange_1_plugin filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName> arduwoodpecker_claw_1::arduwoodpecker_claw_flange_joint  </jointName>
+        <linkName> arduwoodpecker_claw_1::arduwoodpecker_claw_flange::claw_flange </linkName>
+        <turningDirection>cw</turningDirection>
+        <motorType>position</motorType>
+        <commandSubTopic>/gazebo/command/claw_pos</commandSubTopic>
+        <motorNumber>1</motorNumber>
+        <motorSpeedPubTopic>claw_pos/1</motorSpeedPubTopic>
+        <joint_control_pid>
+          <p><%= flange_pid_p %></p>
+          <i><%= flange_pid_i %></i>
+          <d><%= flange_pid_d %></d>
+          <iMax>2</iMax>
+          <iMin>-2</iMin>
+          <cmdMax>10000</cmdMax>
+          <cmdMin>-10000</cmdMin>
+        </joint_control_pid>
+      </plugin> -->
+      <%# ====================================================================================== %>
       <%
 			tilt_motors.keys.each do |k|
 				jointName = tilt_motors[k][:jointName]
