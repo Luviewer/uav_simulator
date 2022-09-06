@@ -27,7 +27,7 @@ tilt_motors={
 prop_timeConstantUp = 0.0125
 prop_timeConstantDown = 0.025
 prop_maxRotVelocity = 1000
-prop_motorConstant = 8.599e-5
+prop_motorConstant = 8.599e-10
 prop_momentConstant = 0.25
 
 prop_motors={

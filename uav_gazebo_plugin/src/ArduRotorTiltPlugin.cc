@@ -666,7 +666,7 @@ void ArduRotorTiltPlugin::ApplyMotorForces(const double _dt)
 
     for (int i = 0; i < 4; i++)
     {
-        this->dataPtr->servo_speed[i] = (this->dataPtr->servo_speed[i] - 1500) / 500.0f * 180.0f / 57.3f;
+        this->dataPtr->servo_speed[i] = (this->dataPtr->servo_speed[i] - 1500) / 1000.0f * 180.0f / 57.3f;
     }
 
     // std::cout << "servo_speed:"
@@ -797,19 +797,19 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
         }
         // std::cout << "\n";
 
-        // std::cout << "servo_speed:\t";
+        std::cout << "servo_speed:\t";
         for (unsigned i = 0; i < this->dataPtr->servo_num; ++i)
         {
             if (i < MAX_MOTORS)
             {
-                double cmd = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->motor_num], -1.0f, 1.0f);
+                double cmd = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->motor_num], -2.0f, 2.0f);
 
-                if (cmd == -1)
-                    cmd = 0.5;
+                // if (cmd == -1)
+                //     cmd = 0.5;
 
                 this->dataPtr->servo_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
 
-                // std::cout << cmd << "\t";
+                std::cout << cmd << "\t";
             }
             else
             {
@@ -817,7 +817,7 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
         }
-        // std::cout << "\n";
+        std::cout << "\n";
         // std::cout << "\n";
     }
 }
@@ -879,7 +879,7 @@ void ArduRotorTiltPlugin::SendState() const
     // get transform from world NED to Model frame
     const ignition::math::Pose3d NEDToModelXForwardZUp = gazeboXYZToModelXForwardZDown - this->gazeboXYZToNED;
 
-    ROS_INFO_STREAM_THROTTLE(1, "ned to model [" << NEDToModelXForwardZUp << "]\n");
+    // ROS_INFO_STREAM_THROTTLE(1, "ned to model [" << NEDToModelXForwardZUp << "]\n");
 
     // N
     pkt.positionXYZ[0] = NEDToModelXForwardZUp.Pos().X();
