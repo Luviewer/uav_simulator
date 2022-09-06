@@ -39,7 +39,6 @@
     <include>
       <uri>model://sun</uri>
       <pose>-11.660200 -5.942800 100 0.000000 0.0 0.0</pose>
-
     </include>
 
     <model name="ground_plane">
@@ -78,7 +77,6 @@
             </script>
           </material>
         </visual>
-
       </link>
     </model>
 
@@ -90,7 +88,6 @@
       </include>
     </model>
 
-
     <model name="tsd_quad_1">
       <pose>0 0 1 0 0 0 </pose>
       <include>
@@ -99,7 +96,7 @@
         <name>tsd_quad_1</name>
       </include>
     </model>
-    
+
     <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so" />
 
   </world>
