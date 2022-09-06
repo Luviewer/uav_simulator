@@ -6,37 +6,37 @@
       <include>
         <uri>model://electric_tower_base</uri>
         <name>electric_tower_base_0</name>
-        <pose>12.5 0.0 1.5 0 0 0.0</pose>
+        <pose>50 0.0 3.7 0 0 0.0</pose>
       </include>
  
       <include>
         <uri>model://electric_tower_base</uri>
         <name>electric_tower_base_1</name>
-        <pose>-12.5 0.0 1.5 0 0 0.0</pose>
+        <pose>-50.0 0.0 3.7 0 0 0.0</pose>
       </include>
 
       <include>
         <uri>model://electric_tower_line</uri>
         <name>electric_tower_line_0</name>
-        <pose>-0.0 1.304 4.9 0 0 0.0</pose>
+        <pose>-0.0 3.35 13.8 0 0 0.0</pose>
       </include>
 
       <include>
         <uri>model://electric_tower_line</uri>
         <name>electric_tower_line_1</name>
-        <pose>-0.0 -1.304 4.9 0 0 0.0</pose>
+        <pose>-0.0 -3.35 13.8 0 0 0.0</pose>
       </include>
 
       <include>
         <uri>model://electric_tower_line</uri>
         <name>electric_tower_line_2</name>
-        <pose>-0.0 1.304 5.9 0 0 0.0</pose>
+        <pose>-0.0 3.35 11.3 0 0 0.0</pose>
       </include>
 
       <include>
         <uri>model://electric_tower_line</uri>
         <name>electric_tower_line_3</name>
-        <pose>-0.0 -1.304 5.9 0 0 0.0</pose>
+        <pose>-0.0 -3.35 11.3 0 0 0.0</pose>
       </include>
 
 </model>
