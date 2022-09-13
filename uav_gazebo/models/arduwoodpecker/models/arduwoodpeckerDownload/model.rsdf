@@ -49,22 +49,22 @@ prop_motors={
       <include>
         <uri>model://arduwoodpecker_tiltrotor</uri>
         <name>arduwoodpecker_tiltrotor_0</name>
-        <pose><%= tilt_dx %> <%= -tilt_dy %> 0 0 0 0</pose>
+        <pose><%= tilt_dx %> <%= -tilt_dy %> 0 0 <%= Math::PI%> 0</pose>
       </include>
       <include>
         <uri>model://arduwoodpecker_tiltrotor</uri>
         <name>arduwoodpecker_tiltrotor_1</name>
-        <pose><%= -tilt_dx %> <%= -tilt_dy %> 0 0 0 0</pose>
+        <pose><%= -tilt_dx %> <%= -tilt_dy %> 0 0 <%= Math::PI%> 0</pose>
       </include>
       <include>
         <uri>model://arduwoodpecker_tiltrotor</uri>
         <name>arduwoodpecker_tiltrotor_2</name>
-        <pose><%= -tilt_dx %> <%= tilt_dy %> 0 0 0 <%= Math::PI %></pose>
+        <pose><%= -tilt_dx %> <%= tilt_dy %> 0 0 <%= Math::PI%> <%= Math::PI %></pose>
       </include>
       <include>
         <uri>model://arduwoodpecker_tiltrotor</uri>
         <name>arduwoodpecker_tiltrotor_3</name>
-        <pose><%= tilt_dx %> <%= tilt_dy %> 0 0 0 <%= Math::PI %></pose>
+        <pose><%= tilt_dx %> <%= tilt_dy %> 0 0 <%= Math::PI%> <%= Math::PI %></pose>
       </include>
       <joint name="arduwoodpecker_tiltrotor_0_joint" type="fixed">
         <parent>arduwoodpecker_platform::platform_base</parent>
@@ -179,22 +179,22 @@ prop_motors={
     <include>
       <uri>model://arduwoodpecker_prop_ccw</uri>
       <name>arduwoodpecker_prop_0</name>
-      <pose>0.251 -0.33025 0.070146 0.0 0 0</pose>
+      <pose>0.255 -0.34 -0.070146 0.0 0 0</pose>
     </include>
     <include>
       <uri>model://arduwoodpecker_prop_cw</uri>
       <name>arduwoodpecker_prop_1</name>
-      <pose>-0.251 -0.33025 0.070146 0.0 0 0</pose>
+      <pose>-0.255 -0.34 -0.070146 0.0 0 0</pose>
     </include>
     <include>
       <uri>model://arduwoodpecker_prop_ccw</uri>
       <name>arduwoodpecker_prop_2</name>
-      <pose>-0.251 0.33025 0.070146 0.0 0 0</pose>
+      <pose>-0.255 0.34 -0.070146 0.0 0 0</pose>
     </include>
     <include>
       <uri>model://arduwoodpecker_prop_cw</uri>
       <name>arduwoodpecker_prop_3</name>
-      <pose>0.251 0.33025 0.070146 0.0 0 0</pose>
+      <pose>0.255 0.34 -0.070146 0.0 0 0</pose>
     </include>
     <%# ====================================================================================== %>
     <%

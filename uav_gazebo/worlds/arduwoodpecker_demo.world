@@ -31,7 +31,7 @@
     </include>
     <model name="arduwoodpecker_demo">
       <include>
-        <uri>model://arduwoodpecker</uri>
+        <uri>model://arduwoodpeckerDownload</uri>
         <pose>0 0 0.0 0 0 0</pose>
         <name>arduwoodpecker</name>
       </include>
