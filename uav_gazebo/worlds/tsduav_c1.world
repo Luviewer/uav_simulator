@@ -59,5 +59,13 @@
       </include>
     </model>
 
+    <model name="tsduav_c1">
+      <pose>0 0 2.0 0 0 0</pose>
+      <include>
+        <uri>model://tsduav_c1</uri>
+        <name>tsduav_c1</name>
+      </include>
+    </model>
+
   </world>
 </sdf>

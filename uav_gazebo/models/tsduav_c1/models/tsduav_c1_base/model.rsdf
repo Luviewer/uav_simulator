@@ -1,27 +1,40 @@
 <?xml version="1.0" ?>
-  
+  <%
+
+  # ----------------------------------------------------------------
+  platform_base_dx = 0
+  platform_base_dy = 0
+  platform_base_dz = 0.0
+
+  platform_base_mass = 20
+
+  platform_base_ixx  = 0.5
+  platform_base_iyy  = 0.5
+  platform_base_izz  = 0.2
+
+%>
   <sdf version="1.5">
-    <model name="tsd_c1_platform">
-      
+    <model name="tsduav_c1_platform">
+      <%# ----------------------------------------------------------- %>
       <link name="platform_base">
-      <pose>0 0 0.0  0 0 0</pose>
+      <pose>0 0 <%= platform_base_dz %>  0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>5.5</mass>
+        <mass><%= platform_base_mass %></mass>
         <inertia>
-          <ixx>0.5</ixx>
-          <iyy>0.5</iyy>
-          <izz>0.2</izz>
+          <ixx><%= platform_base_ixx %></ixx>
+          <iyy><%= platform_base_iyy %></iyy>
+          <izz><%= platform_base_izz %></izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
         </inertia>
       </inertial>
       <collision name="platform_base_collision">
-        <pose>0 0 0  0 0 0</pose>
+        <pose>0 0 <%= 0 %>  0 0 0</pose>
         <geometry>
           <box>
-            <size>0.750 0.750 0.406</size>
+            <size>0.750 0.750 <%= 0.406%></size>
           </box>
         </geometry>
         <surface>
@@ -42,7 +55,7 @@
       <visual name="platform_base_visual">
         <geometry>
           <mesh>
-            <uri>model://tsd_c1_base/meshes/body.STL</uri>
+            <uri>model://tsduav_c1_base/meshes/body.STL</uri>
           </mesh>
         </geometry>
         <material>
@@ -94,7 +107,7 @@
       </ode>
     </physics>
   </joint>
-  
+  <%# ----------------------------------------------------------- %>
  
 </model>
 </sdf>
