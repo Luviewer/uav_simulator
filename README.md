@@ -22,3 +22,8 @@ source ~/.bashrc
 cd ardupilot/ArduCopter
 ../Tools/autotest/sim_vehicle.py -f gazebo-iris --console --map
 ```
+
+## gazebo运行
+
+1. tsduav_c1
+```roslaunch uav_gazebo spawn.launch world_name:=tsduav_c1```
