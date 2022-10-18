@@ -4,7 +4,7 @@
   <sdf version="1.5">
     <model name="tsduav_c1_prop">
       <link name='prop'>
-      <pose>0.0 -0.0 0.0 0 -0 0</pose>
+      <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.18</mass>

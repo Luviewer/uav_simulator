@@ -11,22 +11,22 @@
       <include>
         <uri>model://tsduav_c1_prop</uri>
         <name>tsduav_c1_prop_0</name>
-        <pose>0.725 -0.615 -0.0465 0 0 0</pose>
+        <pose>0.62 -0.73 -0.075 0 0 0</pose>
       </include>
       <include>
         <uri>model://tsduav_c1_prop</uri>
         <name>tsduav_c1_prop_1</name>
-        <pose>-0.725 -0.615 -0.0465 0 0 0</pose>
+        <pose>-0.62 -0.73 -0.075 0 0 0</pose>
       </include>
       <include>
         <uri>model://tsduav_c1_prop</uri>
         <name>tsduav_c1_prop_2</name>
-        <pose>-0.725 0.615 -0.0465 0 0 3.141592653589793</pose>
+        <pose>-0.62 0.73 -0.075 0 0 3.141592653589793</pose>
       </include>
       <include>
         <uri>model://tsduav_c1_prop</uri>
         <name>tsduav_c1_prop_3</name>
-        <pose>0.725 0.615 -0.0465 0 0 3.141592653589793</pose>
+        <pose>0.62 0.73 -0.075 0 0 3.141592653589793</pose>
       </include>
       
       <joint name="tsduav_c1_prop_0_joint" type="revolute">

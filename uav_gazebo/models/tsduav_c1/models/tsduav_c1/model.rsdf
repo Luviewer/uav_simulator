@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
   <%
 
-prop_dx = 0.725
-prop_dy = 0.615
-prop_dz = -0.0465
+prop_dx = 0.62
+prop_dy = 0.73
+prop_dz = -0.075
 
 prop_motors={
 	"0" => {:jointName => "tsduav_c1_base::prop0_joint", :linkName => "tsduav_c1_base::prop0"},
