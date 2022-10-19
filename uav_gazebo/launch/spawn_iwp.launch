@@ -2,7 +2,7 @@
 
 <launch>
     <arg name="mav_name" default="test" />
-    <arg name="world_name" default="tsd_t4" />
+    <arg name="world_name" default="arduwoodpecker_demo" />
     <arg name="debug" default="false" />
     <arg name="gui" default="true" />
     <arg name="paused" default="false" />
@@ -11,11 +11,11 @@
     <arg name="x" default="0.0" />
     <arg name="y" default="0.0" />
     <arg name="z" default="0.1" />
-    <arg name="verbose" default="false" />
+    <arg name="verbose" default="true" />
 
-    <!-- <param name="robot_description" command="
-    $(find xacro)/xacro 
-    '$(arg model)' mav_name:=$(arg mav_name) namespace:=$(arg namespace)" /> -->
+    <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find uav_gazebo)/models/ground/models:$(find uav_gazebo)/models/arduwoodpecker/models:$(find uav_gazebo)/models/tsduav_t4/models:$(find uav_gazebo)/models/tsduav_quad/models:$(find uav_gazebo)/models/electric_tower/models" />
+
+    <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find uav_gazebo)/models/ground/models" />
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find uav_gazebo)/worlds/$(arg world_name).world" />
@@ -24,5 +24,6 @@
         <arg name="gui" value="$(arg gui)" />
         <arg name="verbose" value="$(arg verbose)" />
     </include>
+
 
 </launch>

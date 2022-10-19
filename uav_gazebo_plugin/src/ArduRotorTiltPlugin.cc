@@ -666,7 +666,7 @@ void ArduRotorTiltPlugin::ApplyMotorForces(const double _dt)
 
     for (int i = 0; i < 4; i++)
     {
-        this->dataPtr->servo_speed[i] = (this->dataPtr->servo_speed[i] - 1500) / 1000.0f * 180.0f / 57.3f;
+        this->dataPtr->servo_speed[i] = (this->dataPtr->servo_speed[i] - 1500) / 1000.0f * 135.0f / 57.3f;
     }
 
     // std::cout << "servo_speed:"
@@ -779,7 +779,7 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
         }
 
         // compute command based on requested motorSpeed
-        std::cout << "motorSpeed:\t";
+        // std::cout << "motorSpeed:\t";
         for (unsigned i = 0; i < this->dataPtr->motor_num; ++i)
         {
             if (i < MAX_MOTORS)
@@ -787,7 +787,7 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i], -1.0f, 1.0f);
                 this->dataPtr->motor_speed[i] = cmd * 1000.0f;
 
-                std::cout << cmd << "\t";
+                // std::cout << cmd << "\t";
             }
             else
             {
@@ -795,9 +795,9 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
         }
-        std::cout << "\n";
+        // std::cout << "\n";
 
-        std::cout << "servo_speed:\t";
+        // std::cout << "servo_speed:\t";
         for (unsigned i = 0; i < this->dataPtr->servo_num; ++i)
         {
             if (i < MAX_MOTORS)
@@ -809,7 +809,7 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
 
                 this->dataPtr->servo_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
 
-                std::cout << cmd << "\t";
+                // std::cout << cmd << "\t";
             }
             else
             {
@@ -817,7 +817,7 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
         }
-        std::cout << "\n";
+        // std::cout << "\n";
         // std::cout << "\n";
     }
 }
