@@ -3,27 +3,20 @@
 **这里推荐使用Ubuntu20.04** 
 
 #### 安装教程(重要)
-
-```
-echo "export GAZEBO_MODEL_PATH=~/catkin_ws/src/uav_simulator/uav_gazebo/models/arduwoodpecker/models:${GAZEBO_MODEL_PATH}" >> ~/.bashrc
-echo "export GAZEBO_MODEL_PATH=~/catkin_ws/src/uav_simulator/uav_gazebo/models/tsduav_quad/models:${GAZEBO_MODEL_PATH}" >> ~/.bashrc
-echo "export GAZEBO_MODEL_PATH=~/catkin_ws/src/uav_simulator/uav_gazebo/models/tsduav_t4/models:${GAZEBO_MODEL_PATH}" >> ~/.bashrc
-echo "export GAZEBO_MODEL_PATH=~/catkin_ws/src/uav_simulator/uav_gazebo/models/electric_tower/models:${GAZEBO_MODEL_PATH}" >> ~/.bashrc
-   
-
-如果增加其他模型，请按照 `uav_simulator/uav_gazebo/models/xxx` 的写法添加模型，并增加在环境变量中，添加环境变量方式：
-echo "export GAZEBO_MODEL_PATH=~/catkin_ws/src/uav_simulator/uav_gazebo/models/xxx/models:${GAZEBO_MODEL_PATH}" >> ~/.bashrc
-
-source ~/.bashrc
-```
+1. 安装 `ardupilot` 链接：https://github.com/Luviewer/ardupilot
+2. 安装`VSCODE`
+3. `VSCODE`安装`taskrunner`插件
 
 ### 仿真教程
+1. 运行ardupilot
+
 ```
 cd ardupilot/ArduCopter
 ../Tools/autotest/sim_vehicle.py -f gazebo-iris --console --map
 ```
+2. 运行gazebo
 
-## gazebo运行
+# tsduav_c1
+```roslaunch uav_gazebo spawn_tsduav_c1.launch```
 
-1. tsduav_c1
-```roslaunch uav_gazebo spawn.launch world_name:=tsduav_c1```
+
