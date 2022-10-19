@@ -51,11 +51,11 @@
       <uri>model://grass_plane</uri>
     </include>
 
-    <model name="electric_tower_base">
+    <model name="tsd_electric_tower_base">
       <include>
-        <uri>model://electric_tower</uri>
+        <uri>model://tsd_electric_tower</uri>
         <pose>0 0 0 0 0 0</pose>
-        <name>electric_tower</name>
+        <name>tsd_electric_tower</name>
       </include>
     </model>
 

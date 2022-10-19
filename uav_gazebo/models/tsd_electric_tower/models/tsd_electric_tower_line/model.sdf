@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="electric_tower_base">
+    <model name="tsd_electric_tower_line">
       <static>true</static>
-      <link name='base'>
+      <link name='line'>
       <pose>0.0 -0.0 0.0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
@@ -17,12 +17,12 @@
           <izz>0.000167604</izz>
         </inertia>
       </inertial>
-      <collision name='base_collision'>
+      <collision name='line_collision'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>model://electric_tower_base/meshes/base.STL</uri>
+            <uri>model://tsd_electric_tower_line/meshes/line.STL</uri>
           </mesh>
         </geometry>
         <surface>
@@ -34,12 +34,12 @@
           </friction>
         </surface>
       </collision>
-      <visual name='base_visual'>
+      <visual name='line_visual'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>model://electric_tower_base/meshes/base.STL</uri>
+            <uri>model://tsd_electric_tower_line/meshes/line.STL</uri>
           </mesh>
         </geometry>
         <material>

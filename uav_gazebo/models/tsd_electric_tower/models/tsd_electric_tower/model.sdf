@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+  
+  <sdf version="1.5">
+    <model name="tsd_electric_tower">
+      
+      <include>
+        <uri>model://tsd_electric_tower_base</uri>
+        <name>tsd_electric_tower_base_0</name>
+        <pose>50 0.0 3.7 0 0 0.0</pose>
+      </include>
+ 
+      <include>
+        <uri>model://tsd_electric_tower_base</uri>
+        <name>tsd_electric_tower_base_1</name>
+        <pose>-50.0 0.0 3.7 0 0 0.0</pose>
+      </include>
+
+      <include>
+        <uri>model://tsd_electric_tower_line</uri>
+        <name>tsd_electric_tower_line_0</name>
+        <pose>-0.0 3.35 13.8 0 0 0.0</pose>
+      </include>
+
+      <include>
+        <uri>model://tsd_electric_tower_line</uri>
+        <name>tsd_electric_tower_line_1</name>
+        <pose>-0.0 -3.35 13.8 0 0 0.0</pose>
+      </include>
+
+      <include>
+        <uri>model://tsd_electric_tower_line</uri>
+        <name>tsd_electric_tower_line_2</name>
+        <pose>-0.0 3.35 11.3 0 0 0.0</pose>
+      </include>
+
+      <include>
+        <uri>model://tsd_electric_tower_line</uri>
+        <name>tsd_electric_tower_line_3</name>
+        <pose>-0.0 -3.35 11.3 0 0 0.0</pose>
+      </include>
+
+</model>
+</sdf>
