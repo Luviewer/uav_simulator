@@ -183,13 +183,13 @@ IWP_CLAW_NODE::IWP_CLAW_NODE(ros::NodeHandle _nh, ros::NodeHandle _private_nh)
 
 void IWP_CLAW_NODE::open_claw()
 {
-    applyjoint.request.joint_name = "arduwoodpecker::arduwoodpecker_claw_0::arduwoodpecker_claw_flange_joint";
+    applyjoint.request.joint_name = "usl_iwp::usl_iwp_claw_0::usl_iwp_claw_flange_joint";
     applyjoint.request.effort = 200;
     applyjoint.request.duration.nsec = 1e9;
 
     client_joint.call(applyjoint);
 
-    applyjoint.request.joint_name = "arduwoodpecker::arduwoodpecker_claw_1::arduwoodpecker_claw_flange_joint";
+    applyjoint.request.joint_name = "usl_iwp::usl_iwp_claw_1::usl_iwp_claw_flange_joint";
     applyjoint.request.effort = 200;
     applyjoint.request.duration.nsec = 1e9;
 
@@ -198,13 +198,13 @@ void IWP_CLAW_NODE::open_claw()
 
 void IWP_CLAW_NODE::close_claw()
 {
-    applyjoint.request.joint_name = "arduwoodpecker::arduwoodpecker_claw_0::arduwoodpecker_claw_flange_joint";
+    applyjoint.request.joint_name = "usl_iwp::usl_iwp_claw_0::usl_iwp_claw_flange_joint";
     applyjoint.request.effort = -200;
     applyjoint.request.duration.nsec = 1e9;
 
     client_joint.call(applyjoint);
 
-    applyjoint.request.joint_name = "arduwoodpecker::arduwoodpecker_claw_1::arduwoodpecker_claw_flange_joint";
+    applyjoint.request.joint_name = "usl_iwp::usl_iwp_claw_1::usl_iwp_claw_flange_joint";
     applyjoint.request.effort = -200;
     applyjoint.request.duration.nsec = 1e9;
 
