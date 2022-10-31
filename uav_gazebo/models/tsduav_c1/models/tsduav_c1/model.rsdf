@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
   <%
 
-prop_dx = 0.725
-prop_dy = 0.615
-prop_dz = -0.0465
+prop_dx = 0.6
+prop_dy = 0.73
+prop_dz = -0.0545
 
 prop_motors={
 	"0" => {:jointName => "tsduav_c1_base::prop0_joint", :linkName => "tsduav_c1_base::prop0"},
@@ -99,10 +99,10 @@ prop_motors={
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
       <motor_num>4</motor_num>
-      <servo_num>4</servo_num>
+      <servo_num>0</servo_num>
       <motor_pub>/gazebo/command/prop_speed</motor_pub>
       <servo_pub>/gazebo/command/tilt_pos</servo_pub>
-      <imuName>arduwoodpecker_platform::imu_link::imu_sensor</imuName>
+      <imuName>tsduav_c1_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
   </model>

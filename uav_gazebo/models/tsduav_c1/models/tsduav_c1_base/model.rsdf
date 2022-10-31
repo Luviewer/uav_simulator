@@ -6,7 +6,7 @@
   platform_base_dy = 0
   platform_base_dz = 0.0
 
-  platform_base_mass = 20
+  platform_base_mass = 5.5
 
   platform_base_ixx  = 0.5
   platform_base_iyy  = 0.5
@@ -34,7 +34,7 @@
         <pose>0 0 <%= 0 %>  0 0 0</pose>
         <geometry>
           <box>
-            <size>0.750 0.750 <%= 0.406%></size>
+            <size>0.750 0.750 0.406</size>
           </box>
         </geometry>
         <surface>

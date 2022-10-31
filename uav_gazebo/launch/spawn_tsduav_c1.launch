@@ -13,7 +13,7 @@
     <arg name="z" default="0.1" />
     <arg name="verbose" default="true" />
 
-    <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find uav_gazebo)/models/ground/models:$(find uav_gazebo)/models/arduwoodpecker/models:$(find uav_gazebo)/models/tsduav_t4/models:$(find uav_gazebo)/models/tsduav_quad/models:$(find uav_gazebo)/models/electric_tower/models" />
+    <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find uav_gazebo)/models/ground/models:$(find uav_gazebo)/models/tsduav_c1/models:$(find uav_gazebo)/models/tsduav_t4/models:$(find uav_gazebo)/models/tsduav_quad/models:$(find uav_gazebo)/models/tsd_electric_tower/models" />
 
     <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find uav_gazebo)/models/ground/models" />
 
