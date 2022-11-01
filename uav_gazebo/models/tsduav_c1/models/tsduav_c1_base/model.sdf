@@ -7,11 +7,11 @@
       <pose>0 0 0.0  0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>20</mass>
+        <mass>15.5</mass>
         <inertia>
-          <ixx>0.5</ixx>
-          <iyy>0.5</iyy>
-          <izz>0.2</izz>
+          <ixx>4.5</ixx>
+          <iyy>4.5</iyy>
+          <izz>3.6</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
