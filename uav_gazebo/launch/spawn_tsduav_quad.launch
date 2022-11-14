@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="mav_name" default="test" />
+    <arg name="world_name" default="tsduav_quad" />
+    <arg name="debug" default="false" />
+    <arg name="gui" default="true" />
+    <arg name="paused" default="false" />
+    <arg name="namespace" default="$(arg mav_name)" />
+    <arg name="model" default="$(find uav_gazebo)/urdf/$(arg mav_name).xacro" />
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.1" />
+    <arg name="verbose" default="true" />
+
+    <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find uav_gazebo)/models/ground/models:$(find uav_gazebo)/models/tsduav_quad/models" />
+
+    <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find uav_gazebo)/models/ground/models" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find uav_gazebo)/worlds/$(arg world_name).world" />
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="verbose" value="$(arg verbose)" />
+    </include>
+
+
+</launch>
