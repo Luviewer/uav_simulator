@@ -62,6 +62,10 @@ add_executable(iwp_mavros_node src/iwp_mavros_node.cpp)
 add_dependencies(iwp_mavros_node  ${PROJECT_NAME}iwp_mavros_node)
 target_link_libraries(iwp_mavros_node  ${catkin_LIBRARIES})
 
+add_executable(uwb_node src/uwb_node.cpp)
+add_dependencies(uwb_node  ${PROJECT_NAME}uwb_node)
+target_link_libraries(uwb_node  ${catkin_LIBRARIES})
+
 
 install(TARGETS pid_control 
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

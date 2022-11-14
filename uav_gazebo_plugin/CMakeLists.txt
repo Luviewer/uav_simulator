@@ -67,6 +67,9 @@ target_link_libraries(ArduRotorTiltPIDPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRAR
 add_library(ArduRotorQuadOctPlugin SHARED src/ArduRotorQuadOctPlugin.cc)
 target_link_libraries(ArduRotorQuadOctPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+add_library(ArduUWBPlugin SHARED src/ArduUWBPlugin.cc)
+target_link_libraries(ArduUWBPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 
 

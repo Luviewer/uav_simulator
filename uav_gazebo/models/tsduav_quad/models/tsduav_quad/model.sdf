@@ -177,6 +177,6 @@
       <imuName>tsduav_quad_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
+    <plugin name="ArduUWBPlugin" filename="libArduUWBPlugin.so">    </plugin>
   </model>
-  
 </sdf>
