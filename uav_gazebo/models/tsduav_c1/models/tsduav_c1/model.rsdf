@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
   <%
 
-prop_dx = 0.725
-prop_dy = 0.615
-prop_dz = -0.0465
+prop_dx = 0.6
+prop_dy = 0.73
+prop_dz = -0.0545
 
 prop_motors={
 	"0" => {:jointName => "tsduav_c1_base::prop0_joint", :linkName => "tsduav_c1_base::prop0"},
@@ -12,11 +12,13 @@ prop_motors={
 	"3" => {:jointName => "tsduav_c1_base::prop3_joint", :linkName => "tsduav_c1_base::prop3"},
 }
 
+
+
 prop_timeConstantUp = 0.0125
 prop_timeConstantDown = 0.025
 prop_maxRotVelocity = 1000
-prop_motorConstant = 8.599e-5
-prop_momentConstant = 0.25
+prop_motorConstant = 9.599e-5
+prop_momentConstant = 0.16
 
 prop_motors={
 	"0" => {:dir => "ccw"},
@@ -28,6 +30,18 @@ prop_motors={
 %>
   <sdf version="1.5">
     <model name="tsduav_c1">
+
+      <include>
+        <uri>model://tsduav_c1_wheel</uri>
+        <name>tsduav_c1_wheel_0</name>
+        <pose>0.25 0 0.2185 0 0 0</pose>
+      </include>
+      <include>
+        <uri>model://tsduav_c1_wheel</uri>
+        <name>tsduav_c1_wheel_1</name>
+        <pose>-0.25 0 0.2185 0 0 3.14</pose>
+      </include>
+
       <%# ====================================================================================== %>
       <include>
         <uri>model://tsduav_c1_base</uri>
@@ -54,6 +68,7 @@ prop_motors={
         <name>tsduav_c1_prop_3</name>
         <pose><%= prop_dx %> <%= prop_dy %> <%= prop_dz %> 0 0 <%= Math::PI %></pose>
       </include>
+      
       <%
 			prop_motors.keys.each do |k|
 				dir = prop_motors[k][:dir]
@@ -74,6 +89,7 @@ prop_motors={
         </axis>
       </joint>
       <%# ====================================================================================== %>
+      
       <plugin name=<%= '"prop_motor_'+ k + '_plugin"' %> filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
         <jointName><%= 'tsduav_c1_prop_' + k + '_joint' %> </jointName>
@@ -99,11 +115,81 @@ prop_motors={
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
       <motor_num>4</motor_num>
-      <servo_num>4</servo_num>
+      <servo_num>0</servo_num>
       <motor_pub>/gazebo/command/prop_speed</motor_pub>
       <servo_pub>/gazebo/command/tilt_pos</servo_pub>
-      <imuName>arduwoodpecker_platform::imu_link::imu_sensor</imuName>
+      <imuName>tsduav_c1_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
+
+    <joint name="tsduav_c1_wheel_0_joint" type="revolute">
+        <parent>tsduav_c1_base::platform_base</parent>
+        <child>tsduav_c1_wheel_0::prop </child>
+        <pose>0.25 0.028 0.2185 0 0 0</pose>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <damping>0.00001</damping>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      
+      
+      <plugin name="wheel_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName>tsduav_c1_wheel_0_joint </jointName>
+        <linkName>tsduav_c1_wheel_0::prop</linkName>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>1000</maxRotVelocity>
+        <motorConstant>9.599e-05</motorConstant>
+        <momentConstant>0.16</momentConstant>
+        <commandSubTopic>/gazebo/command/wheel_speed</commandSubTopic>
+        <motorNumber>0</motorNumber>
+        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>wheel_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+      </plugin>
+
+      <joint name="tsduav_c1_wheel_1_joint" type="revolute">
+        <parent>tsduav_c1_base::platform_base</parent>
+        <child>tsduav_c1_wheel_1::prop </child>
+        <pose>0.25 -0.028 0.2185 0 0 0</pose>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <damping>0.00001</damping>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      
+      
+      <plugin name="wheel_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName>tsduav_c1_wheel_1_joint </jointName>
+        <linkName>tsduav_c1_wheel_1::prop</linkName>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>1000</maxRotVelocity>
+        <motorConstant>9.599e-05</motorConstant>
+        <momentConstant>0.16</momentConstant>
+        <commandSubTopic>/gazebo/command/wheel_speed</commandSubTopic>
+        <motorNumber>0</motorNumber>
+        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>wheel_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+      </plugin>
   </model>
 </sdf>
