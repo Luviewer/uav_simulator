@@ -26,28 +26,10 @@ struct uwbPacket {
 
     /// \brief Model position in NED frame
     double positionXYZ[3];
-    /*  NOT MERGED IN MASTER YET
-  /// \brief Model latitude in WGS84 system
-  double latitude = 0.0;
 
-  /// \brief Model longitude in WGS84 system
-  double longitude = 0.0;
+    double beaconXYZ[4][3];
 
-  /// \brief Model altitude from GPS
-  double altitude = 0.0;
-
-  /// \brief Model estimated from airspeed sensor (e.g. Pitot) in m/s
-  double airspeed = 0.0;
-
-  /// \brief Battery voltage. Default to -1 to use sitl estimator.
-  double battery_voltage = -1.0;
-
-  /// \brief Battery Current.
-  double battery_current = 0.0;
-
-  /// \brief Model rangefinder value. Default to -1 to use sitl rangefinder.
-  double rangefinder = -1.0;
-*/
+    double beaconDistance[4];
 };
 
 class gazebo::ArduPilotTcpSocketPrivate {
@@ -219,11 +201,12 @@ void ArduUWBPlugin::OnUpdate()
     /////////////////////////////////////////////////
     this->dataPtr->connect_state_cnt++;
 
-    if ((this->dataPtr->connect_state_cnt % 200 != 0)) {
+    if ((this->dataPtr->connect_state_cnt % 10 != 0)) {
         return;
     }
 
-    SendState();
+    /////////////////////////////////////////////////
+    SetState();
 
     int16_t Dist[16];
     int16_t Rtls[3];
@@ -234,17 +217,23 @@ void ArduUWBPlugin::OnUpdate()
     Rtls[1] = int16_t(this->dataPtr->pkg.positionXYZ[1] * 100);
     Rtls[2] = int16_t(this->dataPtr->pkg.positionXYZ[2] * 100);
 
+    for (int i = 0; i < 4; i++) {
+        Dist[i] = this->dataPtr->pkg.beaconDistance[i] * 100;
+    }
+
     setProtocal(Dist, Rtls);
 
     this->dataPtr->tcp_client.Send(this->dataPtr->send_buf, this->dataPtr->send_length);
 }
 
-void ArduUWBPlugin::SendState() const
+void ArduUWBPlugin::SetState() const
 {
-    // send_fdm
-    uwbPacket pkt;
 
-    pkt.timestamp = this->dataPtr->model->GetWorld()->SimTime().Double();
+    const float BEACON_SPACING_NORTH = 10.0;
+    const float BEACON_SPACING_EAST = 20.0;
+    const float BEACON_SPACING_UP = 10.0;
+
+    this->dataPtr->pkg.timestamp = this->dataPtr->model->GetWorld()->SimTime().Double();
 
     // asssumed that the imu orientation is:
     //   x forward
@@ -282,13 +271,13 @@ void ArduUWBPlugin::SendState() const
     // ROS_INFO_STREAM_THROTTLE(1, "ned to model [" << NEDToModelXForwardZUp << "]\n");
 
     // N
-    pkt.positionXYZ[0] = NEDToModelXForwardZUp.Pos().X();
+    this->dataPtr->pkg.positionXYZ[0] = NEDToModelXForwardZUp.Pos().X();
 
     // E
-    pkt.positionXYZ[1] = NEDToModelXForwardZUp.Pos().Y();
+    this->dataPtr->pkg.positionXYZ[1] = NEDToModelXForwardZUp.Pos().Y();
 
     // D
-    pkt.positionXYZ[2] = NEDToModelXForwardZUp.Pos().Z();
+    this->dataPtr->pkg.positionXYZ[2] = NEDToModelXForwardZUp.Pos().Z();
 
     // Get NED velocity in body frame *
     // or...
@@ -296,11 +285,44 @@ void ArduUWBPlugin::SendState() const
     const ignition::math::Vector3d velGazeboWorldFrame = this->dataPtr->model->GetLink()->WorldLinearVel();
     const ignition::math::Vector3d velNEDFrame = this->gazeboXYZToNED.Rot().RotateVectorReverse(velGazeboWorldFrame);
 
-    pkt.velocityXYZ[0] = velNEDFrame.X();
-    pkt.velocityXYZ[1] = velNEDFrame.Y();
-    pkt.velocityXYZ[2] = velNEDFrame.Z();
+    this->dataPtr->pkg.velocityXYZ[0] = velNEDFrame.X();
+    this->dataPtr->pkg.velocityXYZ[1] = velNEDFrame.Y();
+    this->dataPtr->pkg.velocityXYZ[2] = velNEDFrame.Z();
 
-    this->dataPtr->pkg = pkt;
+    ////////////////////////////////////////
+
+    ignition::math::Vector3d beaconXYZ[4];
+    ignition::math::Vector3d beaconDistance[4];
+    ignition::math::Vector3d vechicleXYZ;
+
+    vechicleXYZ[0] = this->dataPtr->pkg.positionXYZ[0];
+    vechicleXYZ[1] = this->dataPtr->pkg.positionXYZ[1];
+    vechicleXYZ[2] = this->dataPtr->pkg.positionXYZ[2];
+
+    beaconXYZ[0][0] = this->dataPtr->pkg.beaconXYZ[0][0] = -BEACON_SPACING_NORTH / 2;
+    beaconXYZ[1][0] = this->dataPtr->pkg.beaconXYZ[1][0] = -BEACON_SPACING_NORTH / 2;
+    beaconXYZ[2][0] = this->dataPtr->pkg.beaconXYZ[2][0] = BEACON_SPACING_NORTH / 2;
+    beaconXYZ[3][0] = this->dataPtr->pkg.beaconXYZ[3][0] = BEACON_SPACING_NORTH / 2;
+
+    beaconXYZ[0][1] = this->dataPtr->pkg.beaconXYZ[0][1] = -BEACON_SPACING_EAST / 2;
+    beaconXYZ[1][1] = this->dataPtr->pkg.beaconXYZ[1][1] = BEACON_SPACING_EAST / 2;
+    beaconXYZ[2][1] = this->dataPtr->pkg.beaconXYZ[2][1] = BEACON_SPACING_EAST / 2;
+    beaconXYZ[3][1] = this->dataPtr->pkg.beaconXYZ[3][1] = -BEACON_SPACING_EAST / 2;
+
+    beaconXYZ[0][2] = this->dataPtr->pkg.beaconXYZ[0][2] = -BEACON_SPACING_UP / 2;
+    beaconXYZ[1][2] = this->dataPtr->pkg.beaconXYZ[1][2] = BEACON_SPACING_UP / 2;
+    beaconXYZ[2][2] = this->dataPtr->pkg.beaconXYZ[2][2] = -BEACON_SPACING_UP / 2;
+    beaconXYZ[3][2] = this->dataPtr->pkg.beaconXYZ[3][2] = BEACON_SPACING_UP / 2;
+
+    beaconDistance[0] = vechicleXYZ - beaconXYZ[0];
+    beaconDistance[1] = vechicleXYZ - beaconXYZ[1];
+    beaconDistance[2] = vechicleXYZ - beaconXYZ[2];
+    beaconDistance[3] = vechicleXYZ - beaconXYZ[3];
+
+    this->dataPtr->pkg.beaconDistance[0] = beaconDistance[0].Length();
+    this->dataPtr->pkg.beaconDistance[1] = beaconDistance[1].Length();
+    this->dataPtr->pkg.beaconDistance[2] = beaconDistance[2].Length();
+    this->dataPtr->pkg.beaconDistance[3] = beaconDistance[3].Length();
 }
 
 const unsigned char auchCRCHi[] = /* CRC锟斤拷位锟街节憋拷*/
@@ -381,7 +403,7 @@ void ArduUWBPlugin::setProtocal(int16_t* Dist, int16_t* Rtls)
     this->dataPtr->send_buf[this->dataPtr->send_length++] = crc % 256;
 
     for (int i = 0; i < 47; i++) {
-        printf("%x ",this->dataPtr->send_buf[i]);
+        printf("%x ", this->dataPtr->send_buf[i]);
     }
     printf("\r\n");
 

@@ -54,7 +54,7 @@ private:
     bool InitArduUWBSockets() const;
 
 private:
-    void SendState() const;
+    void SetState() const;
 
 private:
     void setProtocal(int16_t* Dist, int16_t* Rtls);
