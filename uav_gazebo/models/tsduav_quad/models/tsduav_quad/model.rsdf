@@ -104,11 +104,16 @@ prop_motors={
       <imuName>tsduav_quad_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
+
     <plugin name="ArduUWBPlugin" filename="libArduUWBPlugin.so">
       <ardu_addr>127.0.0.1</ardu_addr>
       <ardu_port>5762</ardu_port>
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
+      <beacon0>-6 -6 0</beacon0>
+      <beacon1>6 -6 3</beacon1>
+      <beacon2>6 6 0</beacon2>
+      <beacon3>-6 6 3</beacon3>
     </plugin>
   </model>
 </sdf>

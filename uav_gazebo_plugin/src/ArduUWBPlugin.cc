@@ -37,7 +37,7 @@ class gazebo::ArduPilotTcpSocketPrivate {
 public:
     ArduPilotTcpSocketPrivate()
     {
-        printf("ArduPilotTcpSocketPrivate");
+        printf("ArduPilotTcpSocketPrivate\r\n");
         if ((fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
             printf("create socket error: %s(errno: %d)\n", strerror(errno), errno);
         }
@@ -126,6 +126,9 @@ public:
     uwbPacket pkg;
 
 public:
+    ignition::math::Vector3d beacon[4];
+
+public:
     unsigned char send_length;
     unsigned char send_buf[47];
 };
@@ -160,6 +163,24 @@ void ArduUWBPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (_sdf->HasElement("gazeboXYZToNED")) {
         this->gazeboXYZToNED = _sdf->Get<ignition::math::Pose3d>("gazeboXYZToNED");
     }
+
+    if (_sdf->HasElement("beacon0")) {
+        this->dataPtr->beacon[0] = _sdf->Get<ignition::math::Vector3d>("beacon0");
+    }
+    if (_sdf->HasElement("beacon1")) {
+        this->dataPtr->beacon[1] = _sdf->Get<ignition::math::Vector3d>("beacon1");
+    }
+    if (_sdf->HasElement("beacon2")) {
+        this->dataPtr->beacon[2] = _sdf->Get<ignition::math::Vector3d>("beacon2");
+    }
+    if (_sdf->HasElement("beacon3")) {
+        this->dataPtr->beacon[3] = _sdf->Get<ignition::math::Vector3d>("beacon3");
+    }
+
+    std::cout << "beacon0:" << this->dataPtr->beacon[0] << std::endl;
+    std::cout << "beacon1:" << this->dataPtr->beacon[1] << std::endl;
+    std::cout << "beacon2:" << this->dataPtr->beacon[2] << std::endl;
+    std::cout << "beacon3:" << this->dataPtr->beacon[3] << std::endl;
 
     this->dataPtr->connect_state = false;
     this->dataPtr->connect_state_cnt = 0;
@@ -228,10 +249,6 @@ void ArduUWBPlugin::OnUpdate()
 
 void ArduUWBPlugin::SetState() const
 {
-    const float BEACON_SPACING_EAST = 20.0;
-    const float BEACON_SPACING_NORTH = 10.0;
-    const float BEACON_SPACING_UP = 10.0;
-
     this->dataPtr->pkg.timestamp = this->dataPtr->model->GetWorld()->SimTime().Double();
 
     // asssumed that the imu orientation is:
@@ -239,28 +256,6 @@ void ArduUWBPlugin::SetState() const
     //   y right
     //   z down
 
-    // get inertial pose and velocity
-    // position of the uav in world frame
-    // this position is used to calcualte bearing and distance
-    // from starting location, then use that to update gps position.
-    // The algorithm looks something like below (from ardupilot helper
-    // libraries):
-    //   bearing = to_degrees(atan2(position.y, position.x));
-    //   distance = math.sqrt(self.position.x**2 + self.position.y**2)
-    //   (self.latitude, self.longitude) = util.gps_newpos(
-    //    self.home_latitude, self.home_longitude, bearing, distance)
-    // where xyz is in the NED directions.
-    // Gazebo world xyz is assumed to be N, -E, -D, so flip some stuff
-    // around.
-    // orientation of the uav in world NED frame -
-    // assuming the world NED frame has xyz mapped to NED,
-    // imuLink is NED - z down
-
-    // model world pose brings us to model,
-    // which for example zephyr has -y-forward, x-left, z-up
-    // adding modelXYZToAirplaneXForwardZDown rotates
-    //   from: model XYZ
-    //   to: airplane x-forward, y-left, z-down
     const ignition::math::Pose3d gazeboXYZToModelXForwardZDown
         = this->modelXYZToAirplaneXForwardZDown + this->dataPtr->model->WorldPose();
 
@@ -269,47 +264,56 @@ void ArduUWBPlugin::SetState() const
 
     // ROS_INFO_STREAM_THROTTLE(1, "ned to model [" << NEDToModelXForwardZUp << "]\n");
 
+    ignition::math::Vector3d vechicleXYZ;
+
     // N
-    this->dataPtr->pkg.positionXYZ[0] = NEDToModelXForwardZUp.Pos().X();
+    vechicleXYZ.Y() = NEDToModelXForwardZUp.Pos().X();
 
     // E
-    this->dataPtr->pkg.positionXYZ[1] = NEDToModelXForwardZUp.Pos().Y();
+    vechicleXYZ.X() = NEDToModelXForwardZUp.Pos().Y();
 
     // D
-    this->dataPtr->pkg.positionXYZ[2] = NEDToModelXForwardZUp.Pos().Z();
+    vechicleXYZ.Z() = -NEDToModelXForwardZUp.Pos().Z();
 
     // Get NED velocity in body frame *
     // or...
     // Get model velocity in NED frame
-    const ignition::math::Vector3d velGazeboWorldFrame = this->dataPtr->model->GetLink()->WorldLinearVel();
-    const ignition::math::Vector3d velNEDFrame = this->gazeboXYZToNED.Rot().RotateVectorReverse(velGazeboWorldFrame);
 
-    this->dataPtr->pkg.velocityXYZ[0] = velNEDFrame.X();
-    this->dataPtr->pkg.velocityXYZ[1] = velNEDFrame.Y();
-    this->dataPtr->pkg.velocityXYZ[2] = velNEDFrame.Z();
+    // const ignition::math::Vector3d velGazeboWorldFrame = this->dataPtr->model->GetLink()->WorldLinearVel();
+    // const ignition::math::Vector3d velNEDFrame = this->gazeboXYZToNED.Rot().RotateVectorReverse(velGazeboWorldFrame);
+
+    // this->dataPtr->pkg.velocityXYZ[0] = velNEDFrame.X();
+    // this->dataPtr->pkg.velocityXYZ[1] = velNEDFrame.Y();
+    // this->dataPtr->pkg.velocityXYZ[2] = velNEDFrame.Z();
 
     ////////////////////////////////////////
 
-    ignition::math::Vector3d beaconXYZ[6];
-    ignition::math::Vector3d beaconDistance[6];
-    ignition::math::Vector3d vechicleXYZ;
+    ignition::math::Vector3d beaconDistance[4];
 
-    vechicleXYZ[0] = this->dataPtr->pkg.positionXYZ[0];
-    vechicleXYZ[1] = this->dataPtr->pkg.positionXYZ[1];
-    vechicleXYZ[2] = this->dataPtr->pkg.positionXYZ[2];
+    this->dataPtr->pkg.positionXYZ[0] = vechicleXYZ.X();
+    this->dataPtr->pkg.positionXYZ[1] = vechicleXYZ.Y();
+    this->dataPtr->pkg.positionXYZ[2] = vechicleXYZ.Z();
 
-    beaconXYZ[0][0] = this->dataPtr->pkg.beaconXYZ[0][0] = 0;
-    beaconXYZ[0][1] = this->dataPtr->pkg.beaconXYZ[0][1] = 0;
-    beaconXYZ[0][2] = this->dataPtr->pkg.beaconXYZ[0][2] = 0;
+    this->dataPtr->pkg.beaconXYZ[0][0] = this->dataPtr->beacon[0].X();
+    this->dataPtr->pkg.beaconXYZ[0][1] = this->dataPtr->beacon[0].Y();
+    this->dataPtr->pkg.beaconXYZ[0][2] = this->dataPtr->beacon[0].Z();
 
-    beaconXYZ[1][0] = this->dataPtr->pkg.beaconXYZ[1][0] = 0;
-    beaconXYZ[1][1] = this->dataPtr->pkg.beaconXYZ[1][1] = 0;
-    beaconXYZ[1][2] = this->dataPtr->pkg.beaconXYZ[1][2] = 0;
+    this->dataPtr->pkg.beaconXYZ[1][0] = this->dataPtr->beacon[1].X();
+    this->dataPtr->pkg.beaconXYZ[1][1] = this->dataPtr->beacon[1].Y();
+    this->dataPtr->pkg.beaconXYZ[1][2] = this->dataPtr->beacon[1].Z();
 
-    beaconDistance[0] = vechicleXYZ - beaconXYZ[0];
-    beaconDistance[1] = vechicleXYZ - beaconXYZ[1];
-    beaconDistance[2] = vechicleXYZ - beaconXYZ[2];
-    beaconDistance[3] = vechicleXYZ - beaconXYZ[3];
+    this->dataPtr->pkg.beaconXYZ[2][0] = this->dataPtr->beacon[2].X();
+    this->dataPtr->pkg.beaconXYZ[2][1] = this->dataPtr->beacon[2].Y();
+    this->dataPtr->pkg.beaconXYZ[2][2] = this->dataPtr->beacon[2].Z();
+
+    this->dataPtr->pkg.beaconXYZ[3][0] = this->dataPtr->beacon[3].X();
+    this->dataPtr->pkg.beaconXYZ[3][1] = this->dataPtr->beacon[3].Y();
+    this->dataPtr->pkg.beaconXYZ[3][2] = this->dataPtr->beacon[3].Z();
+
+    beaconDistance[0] = vechicleXYZ - this->dataPtr->beacon[0];
+    beaconDistance[1] = vechicleXYZ - this->dataPtr->beacon[1];
+    beaconDistance[2] = vechicleXYZ - this->dataPtr->beacon[2];
+    beaconDistance[3] = vechicleXYZ - this->dataPtr->beacon[3];
 
     this->dataPtr->pkg.beaconDistance[0] = beaconDistance[0].Length();
     this->dataPtr->pkg.beaconDistance[1] = beaconDistance[1].Length();

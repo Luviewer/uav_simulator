@@ -54,16 +54,14 @@ using namespace gazebo;
 GZ_REGISTER_MODEL_PLUGIN(ArduRotorTiltPlugin)
 
 /// \brief A servo packet.
-struct ServoPacket
-{
+struct ServoPacket {
     /// \brief Motor speed data.
     /// should rename to servo_command here and in ArduPilot SIM_Gazebo.cpp
-    float motorSpeed[MAX_MOTORS] = {0.0f};
+    float motorSpeed[MAX_MOTORS] = { 0.0f };
 };
 
 /// \brief Flight Dynamics Model packet that is sent back to the ArduPilot
-struct fdmPacket
-{
+struct fdmPacket {
     /// \brief packet timestamp
     double timestamp;
 
@@ -106,8 +104,7 @@ struct fdmPacket
 };
 
 /// \brief Control class
-class Control
-{
+class Control {
     /// \brief Constructor
 public:
     Control()
@@ -187,8 +184,7 @@ double Control::kDefaultFrequencyCutoff = 5.0;
 double Control::kDefaultSamplingRate = 0.2;
 
 // Private data class
-class gazebo::ArduPilotSocketPrivate
-{
+class gazebo::ArduPilotSocketPrivate {
     /// \brief constructor
 public:
     ArduPilotSocketPrivate()
@@ -205,8 +201,7 @@ public:
 public:
     ~ArduPilotSocketPrivate()
     {
-        if (fd != -1)
-        {
+        if (fd != -1) {
             ::close(fd);
             fd = -1;
         }
@@ -217,13 +212,12 @@ public:
     /// \param[in] _port Port to bind to.
     /// \return True on success.
 public:
-    bool Bind(const char *_address, const uint16_t _port)
+    bool Bind(const char* _address, const uint16_t _port)
     {
         struct sockaddr_in sockaddr;
         this->MakeSockAddr(_address, _port, sockaddr);
 
-        if (bind(this->fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) != 0)
-        {
+        if (bind(this->fd, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) != 0) {
             shutdown(this->fd, 0);
 #ifdef _WIN32
             closesocket(this->fd);
@@ -233,11 +227,11 @@ public:
             return false;
         }
         int one = 1;
-        setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *>(&one), sizeof(one));
+        setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&one), sizeof(one));
 
 #ifdef _WIN32
         u_long on = 1;
-        ioctlsocket(this->fd, FIONBIO, reinterpret_cast<u_long FAR *>(&on));
+        ioctlsocket(this->fd, FIONBIO, reinterpret_cast<u_long FAR*>(&on));
 #else
         fcntl(this->fd, F_SETFL, fcntl(this->fd, F_GETFL, 0) | O_NONBLOCK);
 #endif
@@ -249,13 +243,12 @@ public:
     /// \param[in] _port Port to connect to.
     /// \return True on success.
 public:
-    bool Connect(const char *_address, const uint16_t _port)
+    bool Connect(const char* _address, const uint16_t _port)
     {
         struct sockaddr_in sockaddr;
         this->MakeSockAddr(_address, _port, sockaddr);
 
-        if (connect(this->fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) != 0)
-        {
+        if (connect(this->fd, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) != 0) {
             shutdown(this->fd, 0);
 #ifdef _WIN32
             closesocket(this->fd);
@@ -265,11 +258,11 @@ public:
             return false;
         }
         int one = 1;
-        setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *>(&one), sizeof(one));
+        setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&one), sizeof(one));
 
 #ifdef _WIN32
         u_long on = 1;
-        ioctlsocket(this->fd, FIONBIO, reinterpret_cast<u_long FAR *>(&on));
+        ioctlsocket(this->fd, FIONBIO, reinterpret_cast<u_long FAR*>(&on));
 #else
         fcntl(this->fd, F_SETFL, fcntl(this->fd, F_GETFL, 0) | O_NONBLOCK);
 #endif
@@ -281,7 +274,7 @@ public:
     /// \param[in] _port Socket port
     /// \param[out] _sockaddr New socket address structure.
 public:
-    void MakeSockAddr(const char *_address, const uint16_t _port, struct sockaddr_in &_sockaddr)
+    void MakeSockAddr(const char* _address, const uint16_t _port, struct sockaddr_in& _sockaddr)
     {
         memset(&_sockaddr, 0, sizeof(_sockaddr));
 
@@ -295,14 +288,14 @@ public:
     }
 
 public:
-    ssize_t Send(const void *_buf, size_t _size) { return send(this->fd, _buf, _size, 0); }
+    ssize_t Send(const void* _buf, size_t _size) { return send(this->fd, _buf, _size, 0); }
 
     /// \brief Receive data
     /// \param[out] _buf Buffer that receives the data.
     /// \param[in] _size Size of the buffer.
     /// \param[in] _timeoutMS Milliseconds to wait for data.
 public:
-    ssize_t Recv(void *_buf, const size_t _size, uint32_t _timeoutMs)
+    ssize_t Recv(void* _buf, const size_t _size, uint32_t _timeoutMs)
     {
         fd_set fds;
         struct timeval tv;
@@ -313,13 +306,12 @@ public:
         tv.tv_sec = _timeoutMs / 1000;
         tv.tv_usec = (_timeoutMs % 1000) * 1000UL;
 
-        if (select(this->fd + 1, &fds, NULL, NULL, &tv) != 1)
-        {
+        if (select(this->fd + 1, &fds, NULL, NULL, &tv) != 1) {
             return -1;
         }
 
 #ifdef _WIN32
-        return recv(this->fd, reinterpret_cast<char *>(_buf), _size, 0);
+        return recv(this->fd, reinterpret_cast<char*>(_buf), _size, 0);
 #else
         return recv(this->fd, _buf, _size, 0);
 #endif
@@ -331,8 +323,7 @@ private:
 };
 
 // Private data class
-class gazebo::ArduPilotPluginPrivate
-{
+class gazebo::ArduPilotPluginPrivate {
     /// \brief Pointer to the update event connection.
 public:
     event::ConnectionPtr updateConnection;
@@ -436,14 +427,13 @@ ArduRotorTiltPlugin::ArduRotorTiltPlugin()
     this->dataPtr->arduPilotOnline = false;
     this->dataPtr->connectionTimeoutCount = 0;
 
-    for (uint8_t i = 0; i < MAX_MOTORS; i++)
-    {
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
         this->dataPtr->servo_speed[i] = 0.5;
     }
 }
 
 /////////////////////////////////////////////////
-ArduRotorTiltPlugin::~ArduRotorTiltPlugin() {}
+ArduRotorTiltPlugin::~ArduRotorTiltPlugin() { }
 
 /////////////////////////////////////////////////
 void ArduRotorTiltPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
@@ -455,10 +445,9 @@ void ArduRotorTiltPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     this->dataPtr->modelName = this->dataPtr->model->GetName();
 
     // Initialize ros, if it has not already bee initialized.
-    if (!ros::isInitialized())
-    {
+    if (!ros::isInitialized()) {
         int argc = 0;
-        char **argv = NULL;
+        char** argv = NULL;
         ros::init(argc, argv, this->dataPtr->modelName + "_plugin", ros::init_options::NoSigintHandler);
     }
     this->rosNode.reset(new ros::NodeHandle(this->dataPtr->modelName + "_plugin"));
@@ -470,39 +459,33 @@ void ArduRotorTiltPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     // x-forward, y-right, z-down
     // to the aerospace convention: x-forward, y-left, z-up
     this->modelXYZToAirplaneXForwardZDown = ignition::math::Pose3d(0, 0, 0, 0, 0, 0);
-    if (_sdf->HasElement("modelXYZToAirplaneXForwardZDown"))
-    {
+    if (_sdf->HasElement("modelXYZToAirplaneXForwardZDown")) {
         this->modelXYZToAirplaneXForwardZDown = _sdf->Get<ignition::math::Pose3d>("modelXYZToAirplaneXForwardZDown");
     }
 
     // gazeboXYZToNED: from gazebo model frame: x-forward, y-right, z-down
     // to the aerospace convention: x-forward, y-left, z-up
     this->gazeboXYZToNED = ignition::math::Pose3d(0, 0, 0, IGN_PI, 0, 0);
-    if (_sdf->HasElement("gazeboXYZToNED"))
-    {
+    if (_sdf->HasElement("gazeboXYZToNED")) {
         this->gazeboXYZToNED = _sdf->Get<ignition::math::Pose3d>("gazeboXYZToNED");
     }
 
-    if (_sdf->HasElement("motor_num"))
-    {
+    if (_sdf->HasElement("motor_num")) {
         this->dataPtr->motor_num = _sdf->Get<int>("motor_num");
         ROS_INFO_STREAM("motor_num:" << this->dataPtr->motor_num);
     }
 
-    if (_sdf->HasElement("motor_pub"))
-    {
+    if (_sdf->HasElement("motor_pub")) {
         this->dataPtr->motor_pub_name = _sdf->Get<std::string>("motor_pub");
         ROS_INFO_STREAM("motor_pub_name:" << this->dataPtr->motor_pub_name);
     }
 
-    if (_sdf->HasElement("servo_num"))
-    {
+    if (_sdf->HasElement("servo_num")) {
         this->dataPtr->servo_num = _sdf->Get<int>("servo_num");
         ROS_INFO_STREAM("servo_num:" << this->dataPtr->servo_num);
     }
 
-    if (_sdf->HasElement("servo_pub"))
-    {
+    if (_sdf->HasElement("servo_pub")) {
         this->dataPtr->servo_pub_name = _sdf->Get<std::string>("servo_pub");
         ROS_INFO_STREAM("servo_pub_name:" << this->dataPtr->servo_pub_name);
     }
@@ -517,55 +500,47 @@ void ArduRotorTiltPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     ROS_INFO_STREAM("imuName:" << imuName);
 
-    if (imuScopedName.size() > 1)
-    {
+    if (imuScopedName.size() > 1) {
         gzwarn << "[" << this->dataPtr->modelName << "] "
                << "multiple names match [" << imuName << "] using first found"
                << " name.\n";
-        for (unsigned k = 0; k < imuScopedName.size(); ++k)
-        {
+        for (unsigned k = 0; k < imuScopedName.size(); ++k) {
             gzwarn << "  sensor " << k << " [" << imuScopedName[k] << "].\n";
         }
     }
 
-    if (imuScopedName.size() > 0)
-    {
+    if (imuScopedName.size() > 0) {
         this->dataPtr->imuSensor = std::dynamic_pointer_cast<sensors::ImuSensor>(
             sensors::SensorManager::Instance()->GetSensor(imuScopedName[0]));
     }
 
-    if (!this->dataPtr->imuSensor)
-    {
-        if (imuScopedName.size() > 1)
-        {
+    if (!this->dataPtr->imuSensor) {
+        if (imuScopedName.size() > 1) {
             gzwarn << "[" << this->dataPtr->modelName << "] "
                    << "first imu_sensor scoped name [" << imuScopedName[0]
                    << "] not found, trying the rest of the sensor names.\n";
-            for (unsigned k = 1; k < imuScopedName.size(); ++k)
-            {
+            for (unsigned k = 1; k < imuScopedName.size(); ++k) {
                 this->dataPtr->imuSensor = std::dynamic_pointer_cast<sensors::ImuSensor>(
                     sensors::SensorManager::Instance()->GetSensor(imuScopedName[k]));
-                if (this->dataPtr->imuSensor)
-                {
+                if (this->dataPtr->imuSensor) {
                     gzwarn << "found [" << imuScopedName[k] << "]\n";
                     break;
                 }
             }
         }
 
-        if (!this->dataPtr->imuSensor)
-        {
+        if (!this->dataPtr->imuSensor) {
             gzwarn << "[" << this->dataPtr->modelName << "] "
                    << "imu_sensor scoped name [" << imuName << "] not found, trying unscoped name.\n"
                    << "\n";
             // TODO: this fails for multi-nested models.
             // TODO: and transforms fail for rotated nested model,
             //       joints point the wrong way.
-            this->dataPtr->imuSensor = std::dynamic_pointer_cast<sensors::ImuSensor>(sensors::SensorManager::Instance()->GetSensor(imuName));
+            this->dataPtr->imuSensor
+                = std::dynamic_pointer_cast<sensors::ImuSensor>(sensors::SensorManager::Instance()->GetSensor(imuName));
         }
 
-        if (!this->dataPtr->imuSensor)
-        {
+        if (!this->dataPtr->imuSensor) {
             gzerr << "[" << this->dataPtr->modelName << "] "
                   << "imu_sensor [" << imuName << "] not found, abort ArduPilot plugin.\n"
                   << "\n";
@@ -577,8 +552,7 @@ void ArduRotorTiltPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     this->dataPtr->lastControllerUpdateTime = 0;
 
     // Initialise ardupilot sockets
-    if (!InitArduPilotSockets(_sdf))
-    {
+    if (!InitArduPilotSockets(_sdf)) {
         return;
     }
 
@@ -587,7 +561,8 @@ void ArduRotorTiltPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     // Listen to the update event. This event is broadcast every simulation
     // iteration.
-    this->dataPtr->updateConnection = event::Events::ConnectWorldUpdateBegin(std::bind(&ArduRotorTiltPlugin::OnUpdate, this));
+    this->dataPtr->updateConnection
+        = event::Events::ConnectWorldUpdateBegin(std::bind(&ArduRotorTiltPlugin::OnUpdate, this));
 
     gzlog << "[" << this->dataPtr->modelName << "] "
           << "ArduPilot ready to fly. The force will be with you" << std::endl;
@@ -601,11 +576,9 @@ void ArduRotorTiltPlugin::OnUpdate()
     const gazebo::common::Time curTime = this->dataPtr->model->GetWorld()->SimTime();
 
     // Update the control surfaces and publish the new state.
-    if (curTime > this->dataPtr->lastControllerUpdateTime)
-    {
+    if (curTime > this->dataPtr->lastControllerUpdateTime) {
         this->ReceiveMotorCommand();
-        if (this->dataPtr->arduPilotOnline)
-        {
+        if (this->dataPtr->arduPilotOnline) {
             this->ApplyMotorForces((curTime - this->dataPtr->lastControllerUpdateTime).Double());
             this->SendState();
         }
@@ -618,8 +591,7 @@ void ArduRotorTiltPlugin::OnUpdate()
 void ArduRotorTiltPlugin::ResetPIDs()
 {
     // Reset velocity PID for controls
-    for (size_t i = 0; i < this->dataPtr->controls.size(); ++i)
-    {
+    for (size_t i = 0; i < this->dataPtr->controls.size(); ++i) {
         this->dataPtr->controls[i].cmd = 0;
         // this->dataPtr->controls[i].pid.Reset();
     }
@@ -633,16 +605,14 @@ bool ArduRotorTiltPlugin::InitArduPilotSockets(sdf::ElementPtr _sdf) const
     this->dataPtr->fdm_port_in = _sdf->Get("fdm_port_in", static_cast<uint32_t>(9002)).first;
     this->dataPtr->fdm_port_out = _sdf->Get("fdm_port_out", static_cast<uint32_t>(9003)).first;
 
-    if (!this->dataPtr->socket_in.Bind(this->dataPtr->listen_addr.c_str(), this->dataPtr->fdm_port_in))
-    {
+    if (!this->dataPtr->socket_in.Bind(this->dataPtr->listen_addr.c_str(), this->dataPtr->fdm_port_in)) {
         gzerr << "[" << this->dataPtr->modelName << "] "
               << "failed to bind with " << this->dataPtr->listen_addr << ":" << this->dataPtr->fdm_port_in
               << " aborting plugin.\n";
         return false;
     }
 
-    if (!this->dataPtr->socket_out.Connect(this->dataPtr->fdm_addr.c_str(), this->dataPtr->fdm_port_out))
-    {
+    if (!this->dataPtr->socket_out.Connect(this->dataPtr->fdm_addr.c_str(), this->dataPtr->fdm_port_out)) {
         gzerr << "[" << this->dataPtr->modelName << "] "
               << "failed to bind with " << this->dataPtr->fdm_addr << ":" << this->dataPtr->fdm_port_out
               << " aborting plugin.\n";
@@ -664,8 +634,7 @@ void ArduRotorTiltPlugin::ApplyMotorForces(const double _dt)
 
     this->dataPtr->motor_pub.publish(actuator_msg);
 
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++) {
         this->dataPtr->servo_speed[i] = (this->dataPtr->servo_speed[i] - 1500) / 1000.0f * 135.0f / 57.3f;
     }
 
@@ -700,14 +669,11 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
 
     ServoPacket pkt;
     uint32_t waitMs;
-    if (this->dataPtr->arduPilotOnline)
-    {
+    if (this->dataPtr->arduPilotOnline) {
         // increase timeout for receive once we detect a packet from
         // ArduPilot FCS.
         waitMs = 1000;
-    }
-    else
-    {
+    } else {
         // Otherwise skip quickly and do not set control force.
         waitMs = 1;
     }
@@ -716,36 +682,30 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
     // Drain the socket in the case we're backed up
     int counter = 0;
     ServoPacket last_pkt;
-    while (true)
-    {
+    while (true) {
         // last_pkt = pkt;
         const ssize_t recvSize_last = this->dataPtr->socket_in.Recv(&last_pkt, sizeof(ServoPacket), 0ul);
-        if (recvSize_last == -1)
-        {
+        if (recvSize_last == -1) {
             break;
         }
         counter++;
         pkt = last_pkt;
         recvSize = recvSize_last;
     }
-    if (counter > 0)
-    {
+    if (counter > 0) {
         gzdbg << "[" << this->dataPtr->modelName << "] "
               << "Drained n packets: " << counter << std::endl;
     }
 
-    if (recvSize == -1)
-    {
+    if (recvSize == -1) {
         // didn't receive a packet
         // gzdbg << "no packet\n";
         gazebo::common::Time::NSleep(100);
-        if (this->dataPtr->arduPilotOnline)
-        {
+        if (this->dataPtr->arduPilotOnline) {
             gzwarn << "[" << this->dataPtr->modelName << "] "
                    << "Broken ArduPilot connection, count [" << this->dataPtr->connectionTimeoutCount << "/"
                    << this->dataPtr->connectionTimeoutMaxCount << "]\n";
-            if (++this->dataPtr->connectionTimeoutCount > this->dataPtr->connectionTimeoutMaxCount)
-            {
+            if (++this->dataPtr->connectionTimeoutCount > this->dataPtr->connectionTimeoutMaxCount) {
                 this->dataPtr->connectionTimeoutCount = 0;
                 this->dataPtr->arduPilotOnline = false;
                 gzwarn << "[" << this->dataPtr->modelName << "] "
@@ -753,12 +713,10 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
                 this->ResetPIDs();
             }
         }
-    }
-    else
-    {
-        const ssize_t expectedPktSize = sizeof(pkt.motorSpeed[0]) * (this->dataPtr->motor_num + this->dataPtr->servo_num);
-        if (recvSize < expectedPktSize)
-        {
+    } else {
+        const ssize_t expectedPktSize
+            = sizeof(pkt.motorSpeed[0]) * (this->dataPtr->motor_num + this->dataPtr->servo_num);
+        if (recvSize < expectedPktSize) {
             gzerr << "[" << this->dataPtr->modelName << "] "
                   << "got less than model needs. Got: " << recvSize << "commands, expected size: " << expectedPktSize
                   << "\n";
@@ -769,8 +727,7 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
         //   gzdbg << "servo_command [" << i << "]: " << pkt.motorSpeed[i] << "\n";
         // }
 
-        if (!this->dataPtr->arduPilotOnline)
-        {
+        if (!this->dataPtr->arduPilotOnline) {
             gzdbg << "[" << this->dataPtr->modelName << "] "
                   << "ArduPilot controller online detected.\n";
             // made connection, set some flags
@@ -780,17 +737,13 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
 
         // compute command based on requested motorSpeed
         // std::cout << "motorSpeed:\t";
-        for (unsigned i = 0; i < this->dataPtr->motor_num; ++i)
-        {
-            if (i < MAX_MOTORS)
-            {
+        for (unsigned i = 0; i < this->dataPtr->motor_num; ++i) {
+            if (i < MAX_MOTORS) {
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i], -1.0f, 1.0f);
                 this->dataPtr->motor_speed[i] = cmd * 1000.0f;
 
                 // std::cout << cmd << "\t";
-            }
-            else
-            {
+            } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
@@ -798,10 +751,8 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
         // std::cout << "\n";
 
         // std::cout << "servo_speed:\t";
-        for (unsigned i = 0; i < this->dataPtr->servo_num; ++i)
-        {
-            if (i < MAX_MOTORS)
-            {
+        for (unsigned i = 0; i < this->dataPtr->servo_num; ++i) {
+            if (i < MAX_MOTORS) {
                 double cmd = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->motor_num], -2.0f, 2.0f);
 
                 // if (cmd == -1)
@@ -810,9 +761,7 @@ void ArduRotorTiltPlugin::ReceiveMotorCommand()
                 this->dataPtr->servo_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
 
                 // std::cout << cmd << "\t";
-            }
-            else
-            {
+            } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
@@ -874,7 +823,8 @@ void ArduRotorTiltPlugin::SendState() const
     // adding modelXYZToAirplaneXForwardZDown rotates
     //   from: model XYZ
     //   to: airplane x-forward, y-left, z-down
-    const ignition::math::Pose3d gazeboXYZToModelXForwardZDown = this->modelXYZToAirplaneXForwardZDown + this->dataPtr->model->WorldPose();
+    const ignition::math::Pose3d gazeboXYZToModelXForwardZDown
+        = this->modelXYZToAirplaneXForwardZDown + this->dataPtr->model->WorldPose();
 
     // get transform from world NED to Model frame
     const ignition::math::Pose3d NEDToModelXForwardZUp = gazeboXYZToModelXForwardZDown - this->gazeboXYZToNED;
