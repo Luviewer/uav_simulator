@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
-  <%
-  %>
+  
   <sdf version="1.5">
-    <model name="tsd_quad_prop">
+    <model name="tsduav_quad_prop">
       <link name='prop'>
       <pose>0.0 -0.0 0.0 0 -0 0</pose>
       <inertial>
@@ -39,7 +38,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>model://tsd_quad_prop/meshes/prop.STL</uri>
+            <uri>model://tsduav_quad_prop/meshes/prop.STL</uri>
           </mesh>
         </geometry>
         <material>
