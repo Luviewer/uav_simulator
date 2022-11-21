@@ -228,9 +228,8 @@ void ArduUWBPlugin::OnUpdate()
 
 void ArduUWBPlugin::SetState() const
 {
-
-    const float BEACON_SPACING_NORTH = 10.0;
     const float BEACON_SPACING_EAST = 20.0;
+    const float BEACON_SPACING_NORTH = 10.0;
     const float BEACON_SPACING_UP = 10.0;
 
     this->dataPtr->pkg.timestamp = this->dataPtr->model->GetWorld()->SimTime().Double();
@@ -291,28 +290,21 @@ void ArduUWBPlugin::SetState() const
 
     ////////////////////////////////////////
 
-    ignition::math::Vector3d beaconXYZ[4];
-    ignition::math::Vector3d beaconDistance[4];
+    ignition::math::Vector3d beaconXYZ[6];
+    ignition::math::Vector3d beaconDistance[6];
     ignition::math::Vector3d vechicleXYZ;
 
     vechicleXYZ[0] = this->dataPtr->pkg.positionXYZ[0];
     vechicleXYZ[1] = this->dataPtr->pkg.positionXYZ[1];
     vechicleXYZ[2] = this->dataPtr->pkg.positionXYZ[2];
 
-    beaconXYZ[0][0] = this->dataPtr->pkg.beaconXYZ[0][0] = -BEACON_SPACING_NORTH / 2;
-    beaconXYZ[1][0] = this->dataPtr->pkg.beaconXYZ[1][0] = -BEACON_SPACING_NORTH / 2;
-    beaconXYZ[2][0] = this->dataPtr->pkg.beaconXYZ[2][0] = BEACON_SPACING_NORTH / 2;
-    beaconXYZ[3][0] = this->dataPtr->pkg.beaconXYZ[3][0] = BEACON_SPACING_NORTH / 2;
+    beaconXYZ[0][0] = this->dataPtr->pkg.beaconXYZ[0][0] = 0;
+    beaconXYZ[0][1] = this->dataPtr->pkg.beaconXYZ[0][1] = 0;
+    beaconXYZ[0][2] = this->dataPtr->pkg.beaconXYZ[0][2] = 0;
 
-    beaconXYZ[0][1] = this->dataPtr->pkg.beaconXYZ[0][1] = -BEACON_SPACING_EAST / 2;
-    beaconXYZ[1][1] = this->dataPtr->pkg.beaconXYZ[1][1] = BEACON_SPACING_EAST / 2;
-    beaconXYZ[2][1] = this->dataPtr->pkg.beaconXYZ[2][1] = BEACON_SPACING_EAST / 2;
-    beaconXYZ[3][1] = this->dataPtr->pkg.beaconXYZ[3][1] = -BEACON_SPACING_EAST / 2;
-
-    beaconXYZ[0][2] = this->dataPtr->pkg.beaconXYZ[0][2] = -BEACON_SPACING_UP / 2;
-    beaconXYZ[1][2] = this->dataPtr->pkg.beaconXYZ[1][2] = BEACON_SPACING_UP / 2;
-    beaconXYZ[2][2] = this->dataPtr->pkg.beaconXYZ[2][2] = -BEACON_SPACING_UP / 2;
-    beaconXYZ[3][2] = this->dataPtr->pkg.beaconXYZ[3][2] = BEACON_SPACING_UP / 2;
+    beaconXYZ[1][0] = this->dataPtr->pkg.beaconXYZ[1][0] = 0;
+    beaconXYZ[1][1] = this->dataPtr->pkg.beaconXYZ[1][1] = 0;
+    beaconXYZ[1][2] = this->dataPtr->pkg.beaconXYZ[1][2] = 0;
 
     beaconDistance[0] = vechicleXYZ - beaconXYZ[0];
     beaconDistance[1] = vechicleXYZ - beaconXYZ[1];
