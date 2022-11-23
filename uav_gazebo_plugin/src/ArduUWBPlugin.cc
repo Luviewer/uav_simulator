@@ -9,6 +9,7 @@
 #include <ignition/math/Filter.hh>
 #include <mutex>
 #include <sdf/sdf.hh>
+#include <stdlib.h>
 #include <string>
 #include <vector>
 
@@ -200,6 +201,8 @@ void ArduUWBPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     // Initialise ardupilot sockets
     this->dataPtr->ardu_addr = _sdf->Get("ardu_addr", static_cast<std::string>("127.0.0.1")).first;
     this->dataPtr->ardu_port = _sdf->Get("ardu_port", static_cast<uint32_t>(5762)).first;
+
+    std::srand(std::time(NULL));
 }
 
 /////////////////////////////////////////////////
@@ -267,7 +270,7 @@ void ArduUWBPlugin::OnUpdate()
 
     double delta_time = cur_time - last_time;
 
-    printf("delta_time=%f\r\n", delta_time);
+    // printf("delta_time=%f\r\n", delta_time);
 
     last_time = cur_time;
 }
@@ -300,6 +303,18 @@ void ArduUWBPlugin::SetState() const
     // D
     vechicleXYZ.Z() = -NEDToModelXForwardZUp.Pos().Z();
 
+    static int cnt = 0;
+    cnt++;
+    if ((cnt % 5) == 0) {
+        std::printf("std::rand()=%d\r\n", std::rand());
+        std::printf("std::rand() % 100 = %d\r\n", std::rand() % 100);
+
+        printf("vechicleXYZ=%f,%f,%f\r\n", vechicleXYZ[0], vechicleXYZ[1], vechicleXYZ[2]);
+        vechicleXYZ = vechicleXYZ + 50.0f * (float)(std::rand() % 100);
+
+        printf("vechicleXYZ=%f,%f,%f\r\n", vechicleXYZ[0], vechicleXYZ[1], vechicleXYZ[2]);
+    }
+
     // Get NED velocity in body frame *
     // or...
     // Get model velocity in NED frame
@@ -314,10 +329,6 @@ void ArduUWBPlugin::SetState() const
     ////////////////////////////////////////
 
     ignition::math::Vector3d beaconDistance[6];
-
-    this->dataPtr->pkg.positionXYZ[0] = vechicleXYZ.X();
-    this->dataPtr->pkg.positionXYZ[1] = vechicleXYZ.Y();
-    this->dataPtr->pkg.positionXYZ[2] = vechicleXYZ.Z();
 
     this->dataPtr->pkg.beaconXYZ[0][0] = this->dataPtr->beacon[0].X();
     this->dataPtr->pkg.beaconXYZ[0][1] = this->dataPtr->beacon[0].Y();
@@ -342,6 +353,10 @@ void ArduUWBPlugin::SetState() const
     this->dataPtr->pkg.beaconXYZ[5][0] = this->dataPtr->beacon[5].X();
     this->dataPtr->pkg.beaconXYZ[5][1] = this->dataPtr->beacon[5].Y();
     this->dataPtr->pkg.beaconXYZ[5][2] = this->dataPtr->beacon[5].Z();
+
+    this->dataPtr->pkg.positionXYZ[0] = vechicleXYZ.X();
+    this->dataPtr->pkg.positionXYZ[1] = vechicleXYZ.Y();
+    this->dataPtr->pkg.positionXYZ[2] = vechicleXYZ.Z();
 
     beaconDistance[0] = vechicleXYZ - this->dataPtr->beacon[0];
     beaconDistance[1] = vechicleXYZ - this->dataPtr->beacon[1];
