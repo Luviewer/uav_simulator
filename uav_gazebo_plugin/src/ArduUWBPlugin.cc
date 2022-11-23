@@ -27,9 +27,9 @@ struct uwbPacket {
     /// \brief Model position in NED frame
     double positionXYZ[3];
 
-    double beaconXYZ[4][3];
+    double beaconXYZ[6][3];
 
-    double beaconDistance[4];
+    double beaconDistance[6];
 };
 
 class gazebo::ArduPilotTcpSocketPrivate {
@@ -126,7 +126,7 @@ public:
     uwbPacket pkg;
 
 public:
-    ignition::math::Vector3d beacon[4];
+    ignition::math::Vector3d beacon[6];
 
 public:
     unsigned char send_length;
@@ -176,11 +176,19 @@ void ArduUWBPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (_sdf->HasElement("beacon3")) {
         this->dataPtr->beacon[3] = _sdf->Get<ignition::math::Vector3d>("beacon3");
     }
+    if (_sdf->HasElement("beacon4")) {
+        this->dataPtr->beacon[4] = _sdf->Get<ignition::math::Vector3d>("beacon4");
+    }
+    if (_sdf->HasElement("beacon5")) {
+        this->dataPtr->beacon[5] = _sdf->Get<ignition::math::Vector3d>("beacon5");
+    }
 
     std::cout << "beacon0:" << this->dataPtr->beacon[0] << std::endl;
     std::cout << "beacon1:" << this->dataPtr->beacon[1] << std::endl;
     std::cout << "beacon2:" << this->dataPtr->beacon[2] << std::endl;
     std::cout << "beacon3:" << this->dataPtr->beacon[3] << std::endl;
+    std::cout << "beacon4:" << this->dataPtr->beacon[4] << std::endl;
+    std::cout << "beacon5:" << this->dataPtr->beacon[5] << std::endl;
 
     this->dataPtr->connect_state = false;
     this->dataPtr->connect_state_cnt = 0;
@@ -207,6 +215,7 @@ bool ArduUWBPlugin::InitArduUWBSockets() const
     return true;
 }
 
+static double last_time;
 /////////////////////////////////////////////////
 void ArduUWBPlugin::OnUpdate()
 {
@@ -227,24 +236,40 @@ void ArduUWBPlugin::OnUpdate()
     }
 
     /////////////////////////////////////////////////
+    static int update_cnt = 0;
+
+    update_cnt++;
+    if ((update_cnt % 4) != 0) {
+        return;
+    }
+
+    /////////////////////////////////////////////////
     SetState();
 
-    int16_t Dist[16];
+    uint16_t Dist[16];
     int16_t Rtls[3];
 
     memset(Dist, 0, sizeof(uint16_t) * 16);
 
-    Rtls[0] = int16_t(this->dataPtr->pkg.positionXYZ[0] * 100);
-    Rtls[1] = int16_t(this->dataPtr->pkg.positionXYZ[1] * 100);
-    Rtls[2] = int16_t(this->dataPtr->pkg.positionXYZ[2] * 100);
+    Rtls[0] = int16_t(this->dataPtr->pkg.positionXYZ[0] * 100.0f);
+    Rtls[1] = int16_t(this->dataPtr->pkg.positionXYZ[1] * 100.0f);
+    Rtls[2] = int16_t(this->dataPtr->pkg.positionXYZ[2] * 100.0f);
 
-    for (int i = 0; i < 4; i++) {
-        Dist[i] = this->dataPtr->pkg.beaconDistance[i] * 100;
+    for (int i = 0; i < 6; i++) {
+        Dist[i] = (uint16_t)(this->dataPtr->pkg.beaconDistance[i] * 100.0f);
     }
 
     setProtocal(Dist, Rtls);
 
     this->dataPtr->tcp_client.Send(this->dataPtr->send_buf, this->dataPtr->send_length);
+
+    double cur_time = this->dataPtr->model->GetWorld()->SimTime().Double();
+
+    double delta_time = cur_time - last_time;
+
+    printf("delta_time=%f\r\n", delta_time);
+
+    last_time = cur_time;
 }
 
 void ArduUWBPlugin::SetState() const
@@ -288,7 +313,7 @@ void ArduUWBPlugin::SetState() const
 
     ////////////////////////////////////////
 
-    ignition::math::Vector3d beaconDistance[4];
+    ignition::math::Vector3d beaconDistance[6];
 
     this->dataPtr->pkg.positionXYZ[0] = vechicleXYZ.X();
     this->dataPtr->pkg.positionXYZ[1] = vechicleXYZ.Y();
@@ -310,15 +335,31 @@ void ArduUWBPlugin::SetState() const
     this->dataPtr->pkg.beaconXYZ[3][1] = this->dataPtr->beacon[3].Y();
     this->dataPtr->pkg.beaconXYZ[3][2] = this->dataPtr->beacon[3].Z();
 
+    this->dataPtr->pkg.beaconXYZ[4][0] = this->dataPtr->beacon[4].X();
+    this->dataPtr->pkg.beaconXYZ[4][1] = this->dataPtr->beacon[4].Y();
+    this->dataPtr->pkg.beaconXYZ[4][2] = this->dataPtr->beacon[4].Z();
+
+    this->dataPtr->pkg.beaconXYZ[5][0] = this->dataPtr->beacon[5].X();
+    this->dataPtr->pkg.beaconXYZ[5][1] = this->dataPtr->beacon[5].Y();
+    this->dataPtr->pkg.beaconXYZ[5][2] = this->dataPtr->beacon[5].Z();
+
     beaconDistance[0] = vechicleXYZ - this->dataPtr->beacon[0];
     beaconDistance[1] = vechicleXYZ - this->dataPtr->beacon[1];
     beaconDistance[2] = vechicleXYZ - this->dataPtr->beacon[2];
     beaconDistance[3] = vechicleXYZ - this->dataPtr->beacon[3];
+    beaconDistance[4] = vechicleXYZ - this->dataPtr->beacon[4];
+    beaconDistance[5] = vechicleXYZ - this->dataPtr->beacon[5];
 
     this->dataPtr->pkg.beaconDistance[0] = beaconDistance[0].Length();
     this->dataPtr->pkg.beaconDistance[1] = beaconDistance[1].Length();
     this->dataPtr->pkg.beaconDistance[2] = beaconDistance[2].Length();
     this->dataPtr->pkg.beaconDistance[3] = beaconDistance[3].Length();
+    this->dataPtr->pkg.beaconDistance[4] = beaconDistance[4].Length();
+    this->dataPtr->pkg.beaconDistance[5] = beaconDistance[5].Length();
+
+    // for (int i = 0; i < 6; i++) {
+    //     printf("beaconDistance[%d]=%f\r\n", i, this->dataPtr->pkg.beaconDistance[i]);
+    // }
 }
 
 const unsigned char auchCRCHi[] = /* CRC锟斤拷位锟街节憋拷*/
@@ -368,7 +409,7 @@ unsigned int CRC_Calculate(unsigned char* pdata, unsigned char num)
     return (uchCRCHi << 8 | uchCRCLo);
 }
 
-void ArduUWBPlugin::setProtocal(int16_t* Dist, int16_t* Rtls)
+void ArduUWBPlugin::setProtocal(uint16_t* Dist, int16_t* Rtls)
 {
     unsigned int crc;
     unsigned int i;
@@ -398,10 +439,10 @@ void ArduUWBPlugin::setProtocal(int16_t* Dist, int16_t* Rtls)
     this->dataPtr->send_buf[this->dataPtr->send_length++] = crc / 256;
     this->dataPtr->send_buf[this->dataPtr->send_length++] = crc % 256;
 
-    for (int i = 0; i < 47; i++) {
-        printf("%x ", this->dataPtr->send_buf[i]);
-    }
-    printf("\r\n");
+    // for (int i = 0; i < 47; i++) {
+    //     printf("%x ", this->dataPtr->send_buf[i]);
+    // }
+    // printf("\r\n");
 
     // printf("crc=0x%x,0x%x\r\n", this->dataPtr->send_buf[45], this->dataPtr->send_buf[46]);
 }
