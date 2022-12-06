@@ -1,27 +1,27 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_c1_platform">
+    <model name="tsduav_c1_base">
       
-      <link name="platform_base">
-      <pose>0 0 0.0  0 0 0</pose>
+      <link name="base">
+      <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>15.5</mass>
+        <mass>10.5</mass>
         <inertia>
-          <ixx>4.5</ixx>
-          <iyy>4.5</iyy>
-          <izz>3.6</izz>
+          <ixx>5.4</ixx>
+          <iyy>4.0</iyy>
+          <izz>3.7</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
         </inertia>
       </inertial>
       <collision name="platform_base_collision">
-        <pose>0 0 0  0 0 0</pose>
+        <pose>0 0 -0.129  0 0 0</pose>
         <geometry>
           <box>
-            <size>0.750 0.750 0.406</size>
+            <size>0.46482 1.07 -0.45184</size>
           </box>
         </geometry>
         <surface>
@@ -40,18 +40,19 @@
         </surface>
       </collision>
       <visual name="platform_base_visual">
-        <geometry>
+        <geometry>+
           <mesh>
             <uri>model://tsduav_c1_base/meshes/body.STL</uri>
           </mesh>
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Grey</name>
+            <name>Gazebo/White</name>
           </script>
         </material>
       </visual>
     </link>
+    
     <link name='imu_link'>
     <inertial>
       <pose>0 0 0 0 0 0</pose>
@@ -74,7 +75,7 @@
   </link>
   <joint name='imu_joint' type='revolute'>
     <child>imu_link</child>
-    <parent>platform_base</parent>
+    <parent>base</parent>
     <axis>
       <xyz>0 0 1</xyz>
       <limit>
@@ -94,7 +95,7 @@
       </ode>
     </physics>
   </joint>
-  
  
+
 </model>
 </sdf>

@@ -1,6 +1,49 @@
 <?xml version="1.0" ?>
   <%
-  %>
+
+# ----------------------------------------------------------------
+platform_base_dx = 0
+platform_base_dy = 0
+platform_base_dz = 0.0
+
+platform_base_mass = 10.5
+
+platform_base_ixx  = 1.4
+platform_base_iyy  = 1.0
+platform_base_izz  = 0.7
+
+# ----------------------------------------------------------------
+link_base_dz = -0.1045
+link_base_mass = 0.2
+
+link_base_ixx  = 0.01
+link_base_iyy  = 0.01
+link_base_izz  = 0.01
+
+# ----------------------------------------------------------------
+link_rot_dz = link_base_dz -0.1995
+link_rot_mass = 0.5
+
+link_rot_ixx  = 0.02
+link_rot_iyy  = 0.03
+link_rot_izz  = 0.01
+
+# ----------------------------------------------------------------
+
+prop_dx = 0.61471
+prop_dy = 0.725
+prop_dz = -0.0465
+
+prop_motors={
+	"0" => {:jointName => "prop_0_joint", :linkName => "prop_0", :dir => "ccw", :x =>  prop_dx, :y => -prop_dy, :z => prop_dz},
+	"1" => {:jointName => "prop_1_joint", :linkName => "prop_1", :dir => "cw",  :x =>  prop_dx, :y =>  prop_dy, :z => prop_dz},
+	"2" => {:jointName => "prop_2_joint", :linkName => "prop_2", :dir => "ccw", :x => -prop_dx, :y =>  prop_dy, :z => prop_dz},
+	"3" => {:jointName => "prop_3_joint", :linkName => "prop_3", :dir => "cw",  :x => -prop_dx, :y => -prop_dy, :z => prop_dz},
+}
+
+
+
+%>
   <sdf version="1.5">
     <model name="tsduav_c1_prop">
       <link name='prop'>
@@ -22,8 +65,8 @@
         <geometry>
           <cylinder>
             <length>0.005</length>
-            <radius>0.2</radius>
-          </cylinder>
+            <radius>0.39</radius>
+          </cylinder> 
         </geometry>
         <surface>
           <contact>

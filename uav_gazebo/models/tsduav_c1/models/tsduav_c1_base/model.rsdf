@@ -1,23 +1,61 @@
 <?xml version="1.0" ?>
   <%
 
-  # ----------------------------------------------------------------
-  platform_base_dx = 0
-  platform_base_dy = 0
-  platform_base_dz = 0.0
+# ----------------------------------------------------------------
+platform_base_dx = 0
+platform_base_dy = 0
+platform_base_dz = 0.0
 
-  platform_base_mass = 15.5
+platform_base_mass = 10.5
 
-  platform_base_ixx  = 4.5
-  platform_base_iyy  = 4.5
-  platform_base_izz  = 3.6
+platform_base_ixx  = 5.4
+platform_base_iyy  = 4.0
+platform_base_izz  = 3.7
+
+# ----------------------------------------------------------------
+link_base_dz = -0.1045
+link_base_mass = 0.2
+
+link_base_ixx  = 0.01
+link_base_iyy  = 0.01
+link_base_izz  = 0.01
+
+# ----------------------------------------------------------------
+link_rot_dz = link_base_dz -0.1995
+link_rot_mass = 0.5
+
+link_rot_ixx  = 0.02
+link_rot_iyy  = 0.03
+link_rot_izz  = 0.01
+
+# ----------------------------------------------------------------
+
+# ----------------------------------------------------------------
+
+prop_dx = 0.61471
+prop_dy = 0.725
+prop_dz = -0.0465
+
+prop_motors={
+	"0" => {:jointName => "prop_0_joint", :linkName => "prop_0", :dir => "ccw", :x =>  prop_dx, :y => -prop_dy, :z => prop_dz},
+	"1" => {:jointName => "prop_1_joint", :linkName => "prop_1", :dir => "cw",  :x =>  prop_dx, :y =>  prop_dy, :z => prop_dz},
+	"2" => {:jointName => "prop_2_joint", :linkName => "prop_2", :dir => "ccw", :x => -prop_dx, :y =>  prop_dy, :z => prop_dz},
+	"3" => {:jointName => "prop_3_joint", :linkName => "prop_3", :dir => "cw",  :x => -prop_dx, :y => -prop_dy, :z => prop_dz},
+}
+
+prop_timeConstantUp = 0.0125
+prop_timeConstantDown = 0.025
+prop_maxRotVelocity = 1000
+prop_motorConstant = 8.599e-5
+prop_momentConstant = 0.25
+
 
 %>
   <sdf version="1.5">
-    <model name="tsduav_c1_platform">
-      <%# ----------------------------------------------------------- %>
-      <link name="platform_base">
-      <pose>0 0 <%= platform_base_dz %>  0 0 0</pose>
+    <model name="tsduav_c1_base">
+      <%# ====================================================================================== %>
+      <link name="base">
+      <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass><%= platform_base_mass %></mass>
@@ -31,10 +69,10 @@
         </inertia>
       </inertial>
       <collision name="platform_base_collision">
-        <pose>0 0 <%= 0 %>  0 0 0</pose>
+        <pose>0 0 -0.129  0 0 0</pose>
         <geometry>
           <box>
-            <size>0.750 0.750 0.406</size>
+            <size>0.46482 1.07 -0.45184</size>
           </box>
         </geometry>
         <surface>
@@ -53,18 +91,19 @@
         </surface>
       </collision>
       <visual name="platform_base_visual">
-        <geometry>
+        <geometry>+
           <mesh>
             <uri>model://tsduav_c1_base/meshes/body.STL</uri>
           </mesh>
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Grey</name>
+            <name>Gazebo/White</name>
           </script>
         </material>
       </visual>
     </link>
+    <%# ====================================================================================== %>
     <link name='imu_link'>
     <inertial>
       <pose>0 0 0 0 0 0</pose>
@@ -87,7 +126,7 @@
   </link>
   <joint name='imu_joint' type='revolute'>
     <child>imu_link</child>
-    <parent>platform_base</parent>
+    <parent>base</parent>
     <axis>
       <xyz>0 0 1</xyz>
       <limit>
@@ -107,7 +146,7 @@
       </ode>
     </physics>
   </joint>
-  <%# ----------------------------------------------------------- %>
  
+<%# ====================================================================================== %>
 </model>
 </sdf>

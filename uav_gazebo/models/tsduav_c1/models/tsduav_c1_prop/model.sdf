@@ -21,8 +21,8 @@
         <geometry>
           <cylinder>
             <length>0.005</length>
-            <radius>0.2</radius>
-          </cylinder>
+            <radius>0.39</radius>
+          </cylinder> 
         </geometry>
         <surface>
           <contact>
