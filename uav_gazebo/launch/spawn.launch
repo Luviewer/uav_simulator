@@ -15,7 +15,7 @@
 
     <arg name="tsduav" default="$(find uav_gazebo)/models/tsduav_t4/models:$(find uav_gazebo)/models/tsduav_quad/models:$(find uav_gazebo)/models/tsduav_c1/models" />
     <arg name="equipment" default="$(find uav_gazebo)/models/ground/models:$(find uav_gazebo)/models/tsd_electric_tower/models" />
-    <arg name="usl" default="$(find uav_gazebo)/models/arduwoodpecker/models:" />
+    <arg name="usl" default="$(find uav_gazebo)/models/arduwoodpecker/models:$(find uav_gazebo)/models/usl_balancebot/models" />
 
     <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(arg tsduav):$(arg equipment):$(arg usl)"/>
     <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find uav_gazebo)/models/ground/models" />
