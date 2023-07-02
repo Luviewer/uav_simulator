@@ -6,11 +6,11 @@ wheel_dy = 0.3
 wheel_dz = -0.3
 
 
-wheel_timeConstantUp = 0.0125
-wheel_timeConstantDown = 0.025
+wheel_timeConstantUp = 0.00001
+wheel_timeConstantDown = 0.00001
 wheel_maxRotVelocity = 1000
-wheel_motorConstant = 8.599e-10
-wheel_momentConstant = 8.599e-10
+wheel_motorConstant = 8.599e-20
+wheel_momentConstant = 8.599e-20
 
 wheel_motors={
 	"0" => {:dir => "ccw"},
@@ -69,7 +69,7 @@ wheel_motors={
         <momentConstant><%= wheel_momentConstant %></momentConstant>
         <commandSubTopic>/gazebo/command/wheel_speed</commandSubTopic>
         <motorNumber><%= k %></motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+        <rotorDragCoefficient>0.000000018</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
         <motorSpeedPubTopic><%= 'wheel_speed/' + k %></motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -81,8 +81,10 @@ wheel_motors={
       <fdm_port_out>9003</fdm_port_out>
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-      <motor_num>2</motor_num>
+      <motor_num>6</motor_num>
       <servo_num>0</servo_num>
+      <wheel_1_name>usl_balancebot_wheel_0::wheel</wheel_1_name>
+      <wheel_2_name>usl_balancebot_wheel_1::wheel</wheel_2_name>
       <motor_pub>/gazebo/command/wheel_speed</motor_pub>
       <imuName>usl_balancebot_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>

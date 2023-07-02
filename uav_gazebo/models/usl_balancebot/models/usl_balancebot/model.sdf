@@ -41,14 +41,14 @@
         <jointName>usl_balancebot_wheel_0_joint </jointName>
         <linkName>usl_balancebot_wheel_0::wheel</linkName>
         <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
+        <timeConstantUp>1.0e-05</timeConstantUp>
+        <timeConstantDown>1.0e-05</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-10</motorConstant>
-        <momentConstant>8.599e-10</momentConstant>
+        <motorConstant>8.599e-20</motorConstant>
+        <momentConstant>8.599e-20</momentConstant>
         <commandSubTopic>/gazebo/command/wheel_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+        <rotorDragCoefficient>0.000000018</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
         <motorSpeedPubTopic>wheel_speed/0</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -75,14 +75,14 @@
         <jointName>usl_balancebot_wheel_1_joint </jointName>
         <linkName>usl_balancebot_wheel_1::wheel</linkName>
         <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
+        <timeConstantUp>1.0e-05</timeConstantUp>
+        <timeConstantDown>1.0e-05</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-10</motorConstant>
-        <momentConstant>8.599e-10</momentConstant>
+        <motorConstant>8.599e-20</motorConstant>
+        <momentConstant>8.599e-20</momentConstant>
         <commandSubTopic>/gazebo/command/wheel_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+        <rotorDragCoefficient>0.000000018</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
         <motorSpeedPubTopic>wheel_speed/1</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -94,8 +94,10 @@
       <fdm_port_out>9003</fdm_port_out>
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-      <motor_num>2</motor_num>
+      <motor_num>6</motor_num>
       <servo_num>0</servo_num>
+      <wheel_1_name>usl_balancebot_wheel_0::wheel</wheel_1_name>
+      <wheel_2_name>usl_balancebot_wheel_1::wheel</wheel_2_name>
       <motor_pub>/gazebo/command/wheel_speed</motor_pub>
       <imuName>usl_balancebot_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>

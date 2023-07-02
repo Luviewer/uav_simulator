@@ -35,7 +35,7 @@ using raw_type = void;
 typedef SSIZE_T ssize_t;
 #endif
 
-#include "ArduRotorNormPlugin.hh"
+#include "ArduRotorBalancebotPlugin.hh"
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/msgs/msgs.hh>
@@ -51,7 +51,7 @@ typedef SSIZE_T ssize_t;
 
 using namespace gazebo;
 
-GZ_REGISTER_MODEL_PLUGIN(ArduRotorNormPlugin)
+GZ_REGISTER_MODEL_PLUGIN(ArduRotorBalancebotPlugin)
 
 /// \brief A servo packet.
 struct ServoPacket {
@@ -79,6 +79,9 @@ struct fdmPacket {
 
     /// \brief Model position in NED frame
     double positionXYZ[3];
+
+    double wheel_v[2];
+
     /*  NOT MERGED IN MASTER YET
   /// \brief Model latitude in WGS84 system
   double latitude = 0.0;
@@ -414,10 +417,14 @@ public:
     int servo_num;
 
     float motor_speed[MAX_MOTORS];
+
+    physics::LinkPtr wheel_1_link;
+    physics::LinkPtr wheel_2_link;
+
 };
 
 /////////////////////////////////////////////////
-ArduRotorNormPlugin::ArduRotorNormPlugin()
+ArduRotorBalancebotPlugin::ArduRotorBalancebotPlugin()
     : dataPtr(new ArduPilotPluginPrivate)
 {
     this->dataPtr->arduPilotOnline = false;
@@ -425,13 +432,13 @@ ArduRotorNormPlugin::ArduRotorNormPlugin()
 }
 
 /////////////////////////////////////////////////
-ArduRotorNormPlugin::~ArduRotorNormPlugin() { }
+ArduRotorBalancebotPlugin::~ArduRotorBalancebotPlugin() { }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
+void ArduRotorBalancebotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
-    GZ_ASSERT(_model, "ArduRotorNormPlugin _model pointer is null");
-    GZ_ASSERT(_sdf, "ArduRotorNormPlugin _sdf pointer is null");
+    GZ_ASSERT(_model, "ArduRotorBalancebotPlugin _model pointer is null");
+    GZ_ASSERT(_sdf, "ArduRotorBalancebotPlugin _sdf pointer is null");
 
     this->dataPtr->model = _model;
     this->dataPtr->modelName = this->dataPtr->model->GetName();
@@ -722,14 +729,35 @@ void ArduRotorNormPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     // Listen to the update event. This event is broadcast every simulation
     // iteration.
     this->dataPtr->updateConnection
-        = event::Events::ConnectWorldUpdateBegin(std::bind(&ArduRotorNormPlugin::OnUpdate, this));
+        = event::Events::ConnectWorldUpdateBegin(std::bind(&ArduRotorBalancebotPlugin::OnUpdate, this));
 
     gzlog << "[" << this->dataPtr->modelName << "] "
           << "ArduPilot ready to fly. The force will be with you" << std::endl;
+
+    std::string link_name_;
+    if (_sdf->HasElement("wheel_1_name")) {
+        link_name_ = _sdf->GetElement("wheel_1_name")->Get<std::string>();
+
+        this->dataPtr->wheel_1_link = this->dataPtr->model->GetLink(link_name_);
+
+        if (this->dataPtr->wheel_1_link == NULL)
+            gzthrow("[gazebo_odometry_plugin] Couldn't find specified link \""
+                    << link_name_ << "\".");
+    }
+    if (_sdf->HasElement("wheel_2_name")) {
+        link_name_ = _sdf->GetElement("wheel_2_name")->Get<std::string>();
+
+        this->dataPtr->wheel_2_link = this->dataPtr->model->GetLink(link_name_);
+
+        if (this->dataPtr->wheel_2_link == NULL)
+            gzthrow("[gazebo_odometry_plugin] Couldn't find specified link \""
+                    << link_name_ << "\".");
+    }  
+
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::OnUpdate()
+void ArduRotorBalancebotPlugin::OnUpdate()
 {
     std::lock_guard<std::mutex> lock(this->dataPtr->mutex);
 
@@ -748,7 +776,7 @@ void ArduRotorNormPlugin::OnUpdate()
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::ResetPIDs()
+void ArduRotorBalancebotPlugin::ResetPIDs()
 {
     // Reset velocity PID for controls
     for (size_t i = 0; i < this->dataPtr->controls.size(); ++i) {
@@ -758,7 +786,7 @@ void ArduRotorNormPlugin::ResetPIDs()
 }
 
 /////////////////////////////////////////////////
-bool ArduRotorNormPlugin::InitArduPilotSockets(sdf::ElementPtr _sdf) const
+bool ArduRotorBalancebotPlugin::InitArduPilotSockets(sdf::ElementPtr _sdf) const
 {
     this->dataPtr->fdm_addr = _sdf->Get("fdm_addr", static_cast<std::string>("127.0.0.1")).first;
     this->dataPtr->listen_addr = _sdf->Get("listen_addr", static_cast<std::string>("127.0.0.1")).first;
@@ -783,17 +811,21 @@ bool ArduRotorNormPlugin::InitArduPilotSockets(sdf::ElementPtr _sdf) const
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::ApplyMotorForces(const double _dt)
+void ArduRotorBalancebotPlugin::ApplyMotorForces(const double _dt)
 {
     mav_msgs::Actuators actuator_msg;
     actuator_msg.angular_velocities.clear();
-    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[1 - 1]);
-    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[2 - 1]);
+    // actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[1 - 1]);
+    // actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[2 - 1]);
+    // actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[3 - 1]);
+    // actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[4 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[5 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[6 - 1]);
     this->dataPtr->motor_pub.publish(actuator_msg);
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::ReceiveMotorCommand()
+void ArduRotorBalancebotPlugin::ReceiveMotorCommand()
 {
     // Added detection for whether ArduPilot is online or not.
     // If ArduPilot is detected (receive of fdm packet from someone),
@@ -890,7 +922,7 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::SendState() const
+void ArduRotorBalancebotPlugin::SendState() const
 {
     // send_fdm
     fdmPacket pkt;
@@ -978,6 +1010,17 @@ void ArduRotorNormPlugin::SendState() const
     pkt.velocityXYZ[0] = velNEDFrame.X();
     pkt.velocityXYZ[1] = velNEDFrame.Y();
     pkt.velocityXYZ[2] = velNEDFrame.Z();
+
+
+    ignition::math::Vector3d wheel_1_v =  this->dataPtr->wheel_1_link->RelativeAngularVel();
+    ignition::math::Vector3d wheel_2_v =  this->dataPtr->wheel_2_link->RelativeAngularVel();
+
+    pkt.wheel_v[0] = wheel_1_v.Z();
+    pkt.wheel_v[1] = wheel_2_v.Z();
+
+    // std::cout << "1 X:" << wheel_1_v.X() << " Y:" << wheel_1_v.Y() << " Z:" << wheel_1_v.Z() <<"\n";
+    // std::cout << "2 X:" << wheel_2_v.X() << " Y:" << wheel_2_v.Y() << " Z:" << wheel_2_v.Z() <<"\n";
+
     /* NOT MERGED IN MASTER YET
   if (!this->dataPtr->gpsSensor)
     {

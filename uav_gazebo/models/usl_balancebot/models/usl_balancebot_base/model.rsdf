@@ -6,11 +6,7 @@
   base_dy = 0
   base_dz = 0.0
 
-  base_mass = 5.5
-
-  base_ixx  = 0.5
-  base_iyy  = 0.5
-  base_izz  = 0.2
+  base_mass = 30.5
 
   base_x  = 0.2
   base_y  = 0.4
@@ -26,9 +22,9 @@
         <pose>0 0 0 0 0 0</pose>
         <mass><%= base_mass %></mass>
         <inertia>
-          <ixx><%= base_ixx %></ixx>
-          <iyy><%= base_iyy %></iyy>
-          <izz><%= base_izz %></izz>
+          <ixx><%= base_mass*(base_y*base_y + base_z*base_z)/12 %></ixx>
+          <iyy><%= base_mass*(base_x*base_x + base_z*base_z)/12 %></iyy>
+          <izz><%= base_mass*(base_z*base_z + base_x*base_x)/12 %></izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
