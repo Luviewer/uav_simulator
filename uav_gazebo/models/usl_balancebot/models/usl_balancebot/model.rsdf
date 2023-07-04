@@ -43,16 +43,13 @@ wheel_motors={
 			%>
       <joint name=<%= '"' + 'usl_balancebot_wheel_' + k + '_joint' + '"'%> type="revolute">
         <parent>usl_balancebot_base::base</parent>
-        <child><%= 'usl_balancebot_wheel_' + k + '::wheel '%></child>
+        <child><%= 'usl_balancebot_wheel_' + k + '::wheel '%></child>+
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
         <axis>
           <xyz>0 1 0</xyz>
-          <limit>
-            <lower>-1e+16</lower>
-            <upper>1e+16</upper>
-          </limit>
-          <dynamics>
-            <damping>0.00001</damping>
-          </dynamics>
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
@@ -75,14 +72,10 @@ wheel_motors={
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     <% end %>
-    <plugin name="ArduRotorBalancebotPlugin" filename="libArduRotorBalancebotPlugin.so">
-      <fdm_addr>127.0.0.1</fdm_addr>
-      <fdm_port_in>9002</fdm_port_in>
-      <fdm_port_out>9003</fdm_port_out>
+    <plugin name="MyBalancebotPlugin" filename="libMyBalancebotPlugin.so">
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-      <motor_num>6</motor_num>
-      <servo_num>0</servo_num>
+      <motor_num>2</motor_num>
       <wheel_1_name>usl_balancebot_wheel_0::wheel</wheel_1_name>
       <wheel_2_name>usl_balancebot_wheel_1::wheel</wheel_2_name>
       <motor_pub>/gazebo/command/wheel_speed</motor_pub>

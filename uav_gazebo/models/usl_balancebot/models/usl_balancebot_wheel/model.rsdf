@@ -29,7 +29,7 @@
           </cylinder>
         </geometry>
         <max_contacts>1</max_contacts>
-        <%# <surface>
+        <surface>
           <friction>
             <torsional>
               <coefficient>0.25</coefficient>
@@ -37,8 +37,8 @@
               <surface_radius>0.0686</surface_radius>
             </torsional>
             <ode>
-              <mu>1.0</mu>
-              <mu2>0.45</mu2>
+              <mu>0.5</mu>
+              <mu2>0.5</mu2>
               <fdir1>1 0 0</fdir1>
               <slip1>0.0</slip1>
               <slip2>0.0</slip2>
@@ -54,7 +54,7 @@
               <kp>1e8</kp>
             </ode>
           </contact>
-        </surface> %>
+        </surface>
       </collision>
       <visual name='wheel_visual'>
         <pose>0 0 0 0 -0 0</pose>

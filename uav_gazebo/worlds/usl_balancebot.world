@@ -21,8 +21,9 @@
           <contact_surface_layer>0.0</contact_surface_layer>
         </constraints>
       </ode>
-      <real_time_update_rate>-1</real_time_update_rate>
-      <!--<max_step_size>0.0020</max_step_size>-->
+       <max_step_size>0.01</max_step_size>  <!--这个参数指定了每个物理更新步骤的持续时间（秒）。 -->
+      <real_time_factor>1</real_time_factor> <!-- 该参数以赫兹为单位指定每秒尝试的物理更新次数。如果这个数字设为0，它就会尽可能快地运行 -->
+      <real_time_update_rate>100</real_time_update_rate> <!--  即模拟时间与实时的比率 -->
     </physics>
     <gravity>0 0 -9.8</gravity>
     

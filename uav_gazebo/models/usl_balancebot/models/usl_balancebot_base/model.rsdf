@@ -47,14 +47,14 @@
         </surface>
       </collision>
       <visual name="base_visual">
-        <geometry>
+        <geometry> 
           <box>
             <size><%= base_x%> <%= base_y%> <%= base_z%></size>
           </box>
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Grey</name>
+            <name>Gazebo/Orange</name>
           </script>
         </material>
       </visual>
