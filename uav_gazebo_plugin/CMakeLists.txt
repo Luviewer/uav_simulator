@@ -70,8 +70,9 @@ target_link_libraries(ArduRotorQuadOctPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRAR
 add_library(ArduRotorBalancebotPlugin SHARED src/ArduRotorBalancebotPlugin.cc)
 target_link_libraries(ArduRotorBalancebotPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
-add_library(MyBalancebotPlugin SHARED src/MyBalancebotPlugin.cc)
-target_link_libraries(MyBalancebotPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_library(ArduRotorBalanceTailsitter SHARED src/ArduRotorBalanceTailsitter.cc)
+target_link_libraries(ArduRotorBalanceTailsitter ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 
 
