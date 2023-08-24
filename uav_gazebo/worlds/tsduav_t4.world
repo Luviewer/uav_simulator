@@ -34,21 +34,13 @@
       <uri>model://ground_plane</uri>
     </include>
 
-    <model name="usl_balanceTailsitter">
-      <pose>0 0 0.13 0 0.001 0</pose>
+    <model name="tsduav_t4">
+      <pose>0 0 2.0 0 0 0</pose>
       <include>
-        <uri>model://usl_balanceTailsitter</uri>
-        <name>usl_balanceTailsitter</name>
+        <uri>model://tsduav_t4</uri>
+        <name>tsduav_t4</name>
       </include>
     </model>
-
-    <!-- <model name="mybox">
-      <pose>0.36 0 0.5 0 0 0</pose>
-      <include>
-        <uri>model://mybox</uri>
-        <name>box</name>
-      </include>
-    </model> -->
 
   </world>
 </sdf>

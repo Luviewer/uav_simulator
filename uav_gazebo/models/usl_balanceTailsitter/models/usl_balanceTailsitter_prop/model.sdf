@@ -19,9 +19,9 @@
       <collision name='prop_collision'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
-          <mesh>
-            <uri>model://usl_balanceTailsitter_prop/meshes/prop.STL</uri>
-          </mesh>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
         </geometry>
         <max_contacts>1</max_contacts>
       </collision>

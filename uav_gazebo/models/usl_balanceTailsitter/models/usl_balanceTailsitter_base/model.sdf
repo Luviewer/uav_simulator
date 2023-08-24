@@ -21,7 +21,7 @@
         <pose>0 0 0  0 0 0</pose>
         <geometry>
           <box>
-            <size>0.143 0.246 0.085</size>
+            <size>1.5 1.0 0.01</size>
           </box>
         </geometry>
         <surface>
@@ -89,6 +89,5 @@
     </physics>
   </joint>
   
- 
 </model>
 </sdf>

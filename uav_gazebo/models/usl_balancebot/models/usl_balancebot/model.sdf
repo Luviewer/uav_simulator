@@ -82,7 +82,16 @@
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-    
+    <plugin name="MyBalancebotPlugin" filename="libMyBalancebotPlugin.so">
+      <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
+      <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
+      <motor_num>2</motor_num>
+      <wheel_1_name>usl_balancebot_wheel_0::wheel</wheel_1_name>
+      <wheel_2_name>usl_balancebot_wheel_1::wheel</wheel_2_name>
+      <motor_pub>/gazebo/command/wheel_speed</motor_pub>
+      <imuName>usl_balancebot_base::imu_link::imu_sensor</imuName>
+      <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+    </plugin>
   </model>
   
 </sdf>

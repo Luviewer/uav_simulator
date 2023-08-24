@@ -1,67 +1,58 @@
 <?xml version="1.0" ?>
-  <%
-
-  # ----------------------------------------------------------------
-  base_dx = 0
-  base_dy = 0
-  base_dz = 0.0
-
-  base_mass = 0.7
-
-  # base_x  = 0.143
-  # base_y  = 0.246
-  # base_z  = 0.085
-
-  base_x  = 1.5
-  base_y  = 1.0
-  base_z  = 0.01
-%>
+  
   <sdf version="1.5">
-    <model name="usl_balanceTailsitter_base">
-      <%# ----------------------------------------------------------- %>
+    <model name="tsduav_t4_base">
+      
       <link name="base">
-      <pose>0 0 <%= base_dz %>  0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass><%= base_mass %></mass>
+        <mass>10.5</mass>
         <inertia>
-          <ixx>0.06</ixx>
-          <iyy>0.07</iyy>
-          <izz>0.05</izz>
+          <ixx>5.4</ixx>
+          <iyy>4.0</iyy>
+          <izz>3.7</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
         </inertia>
       </inertial>
-      <collision name="base_collision">
-        <pose>0 0 <%= 0 %>  0 0 0</pose>
+      <collision name="platform_base_collision">
+        <pose>0 0 0  0 0 0</pose>
         <geometry>
           <box>
-            <size><%= base_x%> <%= base_y%> <%= base_z%></size>
+            <size>1.311 2.259 0.688</size>
           </box>
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>100000.0</mu>
+              <mu2>100000.0</mu2>
+            </ode>
           </friction>
         </surface>
       </collision>
-      <visual name="base_visual">
-        <geometry>
+      <visual name="platform_base_visual">
+        <geometry>+
           <mesh>
-            <uri>model://usl_balanceTailsitter_base/meshes/base.STL</uri>
+            <uri>model://tsduav_t4_base/meshes/base.STL</uri>
           </mesh>
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Grey</name>
+            <name>Gazebo/Gray</name>
           </script>
         </material>
       </visual>
     </link>
+    
     <link name='imu_link'>
     <inertial>
       <pose>0 0 0 0 0 0</pose>
@@ -104,6 +95,6 @@
       </ode>
     </physics>
   </joint>
-  <%# ----------------------------------------------------------- %>
+  
 </model>
 </sdf>
