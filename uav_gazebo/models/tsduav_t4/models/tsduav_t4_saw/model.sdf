@@ -2,16 +2,17 @@
   
   <sdf version="1.5">
     <model name="tsduav_t4_saw">
+      <self_collide>0</self_collide>
       
       <link name="saw">
       <pose>0 0 -0.0  0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>5.5</mass>
+        <mass>3.5</mass>
         <inertia>
-          <ixx>0.5</ixx>
+          <ixx>0.2</ixx>
           <iyy>0.2</iyy>
-          <izz>0.3</izz>
+          <izz>0.2</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
@@ -27,15 +28,11 @@
         <surface>
           <contact>
             <ode>
-              <max_vel>100.0</max_vel>
               <min_depth>0.001</min_depth>
             </ode>
           </contact>
           <friction>
-            <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
-            </ode>
+            <ode />
           </friction>
         </surface>
       </collision>

@@ -20,14 +20,15 @@
       <collision name="prop_collision">
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
-          <cylinder>
-            <length>0.005</length>
-            <radius>0.41</radius>
-          </cylinder>
+          <mesh>
+            <uri>model://tsduav_t4_prop/meshes/prop.STL</uri>
+          </mesh>
         </geometry>
         <surface>
           <contact>
-            <ode />
+            <ode>
+              <min_depth>0.001</min_depth>
+            </ode>
           </contact>
           <friction>
             <ode />
@@ -35,7 +36,7 @@
         </surface>
       </collision>
       <visual name="prop_visual">
-        <geometry>+
+        <geometry>
           <mesh>
             <uri>model://tsduav_t4_prop/meshes/prop.STL</uri>
           </mesh>

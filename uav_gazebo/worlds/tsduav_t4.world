@@ -21,8 +21,10 @@
           <contact_surface_layer>0.0</contact_surface_layer>
         </constraints>
       </ode>
-      <real_time_update_rate>-1</real_time_update_rate>
-      <!--<max_step_size>0.0020</max_step_size>-->
+      <real_time_update_rate>0</real_time_update_rate>
+      <!-- <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate> -->
+
     </physics>
     <gravity>0 0 -9.8</gravity>
     
@@ -35,7 +37,7 @@
     </include>
 
     <model name="tsduav_t4">
-      <pose>0 0 2.0 0 0 0</pose>
+      <pose>0 0 0.5 0 0 0</pose>
       <include>
         <uri>model://tsduav_t4</uri>
         <name>tsduav_t4</name>

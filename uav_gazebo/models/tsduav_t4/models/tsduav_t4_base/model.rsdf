@@ -65,6 +65,7 @@ prop_momentConstant = 0.25
 %>
   <sdf version="1.5">
     <model name="tsduav_t4_base">
+      <self_collide>0</self_collide>
       <%# ====================================================================================== %>
       <link name="base">
       <pose>0 0 0 0 0 0</pose>
@@ -83,27 +84,23 @@ prop_momentConstant = 0.25
       <collision name="platform_base_collision">
         <pose>0 0 <%= 0 %>  0 0 0</pose>
         <geometry>
-          <box>
-            <size>1.311 2.259 <%= 0.688%></size>
-          </box>
+          <mesh>
+            <uri>model://tsduav_t4_base/meshes/base.STL</uri>
+          </mesh>
         </geometry>
         <surface>
           <contact>
             <ode>
-              <max_vel>100.0</max_vel>
               <min_depth>0.001</min_depth>
             </ode>
           </contact>
           <friction>
-            <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
-            </ode>
+            <ode />
           </friction>
         </surface>
       </collision>
       <visual name="platform_base_visual">
-        <geometry>+
+        <geometry>
           <mesh>
             <uri>model://tsduav_t4_base/meshes/base.STL</uri>
           </mesh>

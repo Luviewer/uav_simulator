@@ -2,6 +2,7 @@
   
   <sdf version="1.5">
     <model name="tsduav_t4">
+      <self_collide>0</self_collide>
       
       <include>
         <uri>model://tsduav_t4_base</uri>
@@ -316,26 +317,36 @@
     <include>
       <uri>model://tsduav_t4_link</uri>
       <name>tsduav_t4_link</name>
-      <pose>0 0 -0.1045 0 0 0</pose>
+      <pose>1.034 0 -0.226 0 -1.5707963267948966 0</pose>
     </include>
-    <joint name='link_base_joint' type='fixed'>
-      <child>tsduav_t4_base::base</child>
+    <joint name='link_base_joint' type='revolute'>
       <parent>tsduav_t4_link::link_base</parent>
+      <child>tsduav_t4_base::base</child>
+      <pose>0 0 -0.226 0 -1.5707963267948966 0</pose>
+      <axis>
+          <xyz>0 -1 0</xyz>
+          <limit>
+            <lower>-3.141592653589793</lower>
+            <upper>1.5707963267948966</upper>
+          </limit>
+          <dynamics>
+            <damping>0.001</damping>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
     </joint>
     
     <include>
       <uri>model://tsduav_t4_saw</uri>
       <name>tsduav_t4_saw</name>
-      <pose>1.307 0 -0.3055 0 -1.5707963267948966  0</pose>
+      <pose>1.6 0 -0.226 0 0 0</pose>
     </include>
     <joint name='tsduav_t4_saw_1_joint' type='fixed'>
       <child>tsduav_t4_saw::saw</child>
-      <parent>tsduav_t4_link::link_pipe_1</parent>
+      <parent>tsduav_t4_link::link_base</parent>
+      <use_parent_model_frame>1</use_parent_model_frame>
     </joint>
-    <joint name='tsduav_t4_saw_2_joint' type='fixed'>
-      <child>tsduav_t4_saw::saw</child>
-      <parent>tsduav_t4_link::link_pipe_2</parent>
-    </joint>
+
     <plugin name="ArduRotorQuadOctPlugin" filename="libArduRotorQuadOctPlugin.so">
       <fdm_addr>127.0.0.1</fdm_addr>
       <fdm_port_in>9002</fdm_port_in>
