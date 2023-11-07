@@ -44,5 +44,54 @@
       </include>
     </model>
 
+    <model name="balll">
+      <static>true</static>
+      <pose>10 0 0 0 0 0</pose>
+        <link name="balll">
+          <pose>0 0 0.0  0 0 0</pose>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>300.5</mass>
+            <inertia>
+              <ixx>10.8133333333333335</ixx>
+              <iyy>10.5083333333333334</iyy>
+              <izz>10.5083333333333334</izz>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+            </inertia>
+          </inertial>
+          <collision name="balll_collision">
+            <pose>0 0 0  0 0 0</pose>
+            <geometry>
+              <box>
+                <size>4 10 5</size>
+              </box>
+            </geometry>
+            <surface>
+              <contact>
+                <ode/>
+              </contact>
+              <friction>
+                <ode/>
+              </friction>
+            </surface>
+          </collision>
+          <visual name="balll_visual">
+            <geometry> 
+              <box>
+                <size>4 10 5</size>
+              </box>
+            </geometry>
+            <material>
+              <script>
+                <name>Gazebo/Gray</name>
+              </script>
+            </material>
+          </visual>
+        </link>
+    </model>
+
+
   </world>
 </sdf>

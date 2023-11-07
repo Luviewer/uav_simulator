@@ -422,6 +422,8 @@ ArduRotorNormPlugin::ArduRotorNormPlugin()
 {
     this->dataPtr->arduPilotOnline = false;
     this->dataPtr->connectionTimeoutCount = 0;
+    this->dataPtr->servo_num=0;
+    this->dataPtr->motor_num=0;
 }
 
 /////////////////////////////////////////////////
