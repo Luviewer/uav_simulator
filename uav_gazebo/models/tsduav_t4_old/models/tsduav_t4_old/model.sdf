@@ -1,22 +1,22 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_t4">
+    <model name="tsduav_t4_old">
       
       <include>
-        <uri>model://tsduav_t4_base</uri>
-        <name>tsduav_t4_base</name>
+        <uri>model://tsduav_t4_old_base</uri>
+        <name>tsduav_t4_old_base</name>
         <pose>0 0 0.0 0 0 0</pose>
       </include>
       
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_0</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_0</name>
         <pose>0.53541 -1.00941 0.0775 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_0_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_0::prop </child>
+      <joint name="tsduav_t4_old_prop_0_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_0::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -29,10 +29,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_0_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_0_joint </jointName>
-        <linkName>tsduav_t4_prop_0::prop</linkName>
+        <jointName>tsduav_t4_old_prop_0_joint </jointName>
+        <linkName>tsduav_t4_old_prop_0::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -48,13 +48,13 @@
       </plugin>
     
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_1</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_1</name>
         <pose>0.53541 -1.00941 -0.0975 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_1_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_1::prop </child>
+      <joint name="tsduav_t4_old_prop_1_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_1::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -67,10 +67,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_1_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_1_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_1_joint </jointName>
-        <linkName>tsduav_t4_prop_1::prop</linkName>
+        <jointName>tsduav_t4_old_prop_1_joint </jointName>
+        <linkName>tsduav_t4_old_prop_1::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -86,13 +86,13 @@
       </plugin>
     
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_2</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_2</name>
         <pose>-0.53541 -1.00941 0.0775 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_2_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_2::prop </child>
+      <joint name="tsduav_t4_old_prop_2_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_2::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -105,10 +105,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_2_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_2_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_2_joint </jointName>
-        <linkName>tsduav_t4_prop_2::prop</linkName>
+        <jointName>tsduav_t4_old_prop_2_joint </jointName>
+        <linkName>tsduav_t4_old_prop_2::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -124,13 +124,13 @@
       </plugin>
     
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_3</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_3</name>
         <pose>-0.53541 -1.00941 -0.0975 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_3_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_3::prop </child>
+      <joint name="tsduav_t4_old_prop_3_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_3::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -143,10 +143,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_3_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_3_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_3_joint </jointName>
-        <linkName>tsduav_t4_prop_3::prop</linkName>
+        <jointName>tsduav_t4_old_prop_3_joint </jointName>
+        <linkName>tsduav_t4_old_prop_3::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -162,13 +162,13 @@
       </plugin>
     
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_4</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_4</name>
         <pose>-0.53541 1.00941 0.0775 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_4_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_4::prop </child>
+      <joint name="tsduav_t4_old_prop_4_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_4::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -181,10 +181,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_4_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_4_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_4_joint </jointName>
-        <linkName>tsduav_t4_prop_4::prop</linkName>
+        <jointName>tsduav_t4_old_prop_4_joint </jointName>
+        <linkName>tsduav_t4_old_prop_4::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -200,13 +200,13 @@
       </plugin>
     
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_5</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_5</name>
         <pose>-0.53541 1.00941 -0.0975 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_5_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_5::prop </child>
+      <joint name="tsduav_t4_old_prop_5_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_5::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -219,10 +219,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_5_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_5_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_5_joint </jointName>
-        <linkName>tsduav_t4_prop_5::prop</linkName>
+        <jointName>tsduav_t4_old_prop_5_joint </jointName>
+        <linkName>tsduav_t4_old_prop_5::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -238,13 +238,13 @@
       </plugin>
     
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_6</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_6</name>
         <pose>0.53541 1.00941 0.0775 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_6_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_6::prop </child>
+      <joint name="tsduav_t4_old_prop_6_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_6::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -257,10 +257,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_6_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_6_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_6_joint </jointName>
-        <linkName>tsduav_t4_prop_6::prop</linkName>
+        <jointName>tsduav_t4_old_prop_6_joint </jointName>
+        <linkName>tsduav_t4_old_prop_6::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -276,13 +276,13 @@
       </plugin>
     
       <include>
-        <uri>model://tsduav_t4_prop</uri>
-        <name>tsduav_t4_prop_7</name>
+        <uri>model://tsduav_t4_old_prop</uri>
+        <name>tsduav_t4_old_prop_7</name>
         <pose>0.53541 1.00941 -0.0975 0 0 0</pose>
       </include>
-      <joint name="tsduav_t4_prop_7_joint" type="revolute">
-        <parent>tsduav_t4_base::base</parent>
-        <child>tsduav_t4_prop_7::prop </child>
+      <joint name="tsduav_t4_old_prop_7_joint" type="revolute">
+        <parent>tsduav_t4_old_base::base</parent>
+        <child>tsduav_t4_old_prop_7::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -295,10 +295,10 @@
           <use_parent_model_frame>1</use_parent_model_frame>
         </axis>
       </joint>
-      <plugin name="tsduav_t4_prop_7_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_t4_old_prop_7_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_t4_prop_7_joint </jointName>
-        <linkName>tsduav_t4_prop_7::prop</linkName>
+        <jointName>tsduav_t4_old_prop_7_joint </jointName>
+        <linkName>tsduav_t4_old_prop_7::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
@@ -314,27 +314,27 @@
       </plugin>
     
     <include>
-      <uri>model://tsduav_t4_link</uri>
-      <name>tsduav_t4_link</name>
+      <uri>model://tsduav_t4_old_link</uri>
+      <name>tsduav_t4_old_link</name>
       <pose>0 0 -0.1045 0 0 0</pose>
     </include>
     <joint name='link_base_joint' type='fixed'>
-      <child>tsduav_t4_base::base</child>
-      <parent>tsduav_t4_link::link_base</parent>
+      <child>tsduav_t4_old_base::base</child>
+      <parent>tsduav_t4_old_link::link_base</parent>
     </joint>
     
     <include>
-      <uri>model://tsduav_t4_saw</uri>
-      <name>tsduav_t4_saw</name>
+      <uri>model://tsduav_t4_old_saw</uri>
+      <name>tsduav_t4_old_saw</name>
       <pose>1.307 0 -0.3055 0 -1.5707963267948966  0</pose>
     </include>
-    <joint name='tsduav_t4_saw_1_joint' type='fixed'>
-      <child>tsduav_t4_saw::saw</child>
-      <parent>tsduav_t4_link::link_pipe_1</parent>
+    <joint name='tsduav_t4_old_saw_1_joint' type='fixed'>
+      <child>tsduav_t4_old_saw::saw</child>
+      <parent>tsduav_t4_old_link::link_pipe_1</parent>
     </joint>
-    <joint name='tsduav_t4_saw_2_joint' type='fixed'>
-      <child>tsduav_t4_saw::saw</child>
-      <parent>tsduav_t4_link::link_pipe_2</parent>
+    <joint name='tsduav_t4_old_saw_2_joint' type='fixed'>
+      <child>tsduav_t4_old_saw::saw</child>
+      <parent>tsduav_t4_old_link::link_pipe_2</parent>
     </joint>
     <plugin name="ArduRotorQuadOctPlugin" filename="libArduRotorQuadOctPlugin.so">
       <fdm_addr>127.0.0.1</fdm_addr>
@@ -344,7 +344,7 @@
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
       <motor_num>8</motor_num>
       <motor_pub>/gazebo/command/prop_speed</motor_pub>
-      <imuName>tsduav_t4::tsduav_t4_base::imu_link::imu_sensor</imuName>
+      <imuName>tsduav_t4_old::tsduav_t4_old_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
   </model>

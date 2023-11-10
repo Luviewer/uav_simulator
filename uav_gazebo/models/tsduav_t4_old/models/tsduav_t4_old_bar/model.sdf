@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_t4_bar">
+    <model name="tsduav_t4_old_bar">
       <static>true</static>
       
       <link name="base">

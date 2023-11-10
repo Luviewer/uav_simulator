@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_t4_link">
+    <model name="tsduav_t4_old_link">
       
       <link name="link_base">
       <pose>0 0 0 0 0 0</pose>
@@ -42,7 +42,7 @@
       <visual name="link_base_visual">
         <geometry>
           <mesh>
-            <uri>model://tsduav_t4_link/meshes/link_base.STL</uri>
+            <uri>model://tsduav_t4_old_link/meshes/link_base.STL</uri>
           </mesh>
         </geometry>
         <material>
@@ -92,7 +92,7 @@
     <visual name="link_pipe_1_visual">
       <geometry>
         <mesh>
-          <uri>model://tsduav_t4_link/meshes/link_pipe.STL</uri>
+          <uri>model://tsduav_t4_old_link/meshes/link_pipe.STL</uri>
         </mesh>
       </geometry>
       <material>
@@ -158,7 +158,7 @@
   <visual name="link_pipe_2_visual">
     <geometry>
       <mesh>
-        <uri>model://tsduav_t4_link/meshes/link_pipe.STL</uri>
+        <uri>model://tsduav_t4_old_link/meshes/link_pipe.STL</uri>
       </mesh>
     </geometry>
     <material>

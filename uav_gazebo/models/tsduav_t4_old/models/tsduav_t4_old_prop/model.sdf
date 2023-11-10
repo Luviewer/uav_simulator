@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_t4_prop">
+    <model name="tsduav_t4_old_prop">
       
       <link name="prop">
       <pose>0 0 0 0 0 0</pose>
@@ -37,7 +37,7 @@
       <visual name="prop_visual">
         <geometry>+
           <mesh>
-            <uri>model://tsduav_t4_prop/meshes/prop.STL</uri>
+            <uri>model://tsduav_t4_old_prop/meshes/prop.STL</uri>
           </mesh>
         </geometry>
         <material>

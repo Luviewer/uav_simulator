@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_t4_saw">
+    <model name="tsduav_t4_old_saw">
       
       <link name="saw">
       <pose>0 0 -0.0  0 0 0</pose>
@@ -42,7 +42,7 @@
       <visual name="saw_visual">
         <geometry>
           <mesh>
-            <uri>model://tsduav_t4_saw/meshes/saw.STL</uri>
+            <uri>model://tsduav_t4_old_saw/meshes/saw.STL</uri>
           </mesh>
         </geometry>
         <material>

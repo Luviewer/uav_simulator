@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_t4_base">
+    <model name="tsduav_t4_old_base">
       
       <link name="base">
       <pose>0 0 0 0 0 0</pose>
@@ -42,7 +42,7 @@
       <visual name="platform_base_visual">
         <geometry>+
           <mesh>
-            <uri>model://tsduav_t4_base/meshes/base.STL</uri>
+            <uri>model://tsduav_t4_old_base/meshes/base.STL</uri>
           </mesh>
         </geometry>
         <material>
